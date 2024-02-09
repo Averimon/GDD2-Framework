@@ -4,15 +4,13 @@ namespace Framework.Bomb
 {
     public class Bomb : MonoBehaviour
     {
-        [SerializeField] private float _explosionCooldown;
+        [SerializeField] private float _explosionDuration;
         [SerializeField] private float _explosionRadius;
-
-        public float explosionCooldown { get => _explosionCooldown; }
-        public float explosionRadius { get => _explosionRadius; }
+        [SerializeField] private Explosion explosion;
 
         private void Awake()
         {
-            Invoke(nameof(Explode), _explosionCooldown);
+            Invoke(nameof(Explode), _explosionDuration);
         }
 
         private void Explode()

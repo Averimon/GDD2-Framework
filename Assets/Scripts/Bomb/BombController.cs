@@ -1,19 +1,16 @@
 using System;
 using UnityEngine;
-using Framework.Bomb;
 
-namespace Framework.Player
+namespace Framework.Bomb
 {
     
-    [CreateAssetMenu(fileName = "PlayerRoleSO", menuName = "PlayerRoleSO", order = 0)]
-    public class PlayerRoleSO : ScriptableObject
+    public class BombController : MonoBehaviour
     {
-        [SerializeField] private BombSO _bomb;
+        [SerializeField] private GameObject _bombPrefab;
 
         [SerializeField] private float _bombRechargeTime;
         
         private float _activeRechargeTime;
-
         private bool _activeRecharge;
 
         public void OnEnable()
@@ -23,6 +20,7 @@ namespace Framework.Player
 
         public void Update()
         {
+
             if (_activeRecharge)
             {
                 _activeRechargeTime = Math.Clamp(_activeRechargeTime + Time.deltaTime, 0 , _bombRechargeTime);
@@ -30,6 +28,13 @@ namespace Framework.Player
                 if (_activeRechargeTime >= _bombRechargeTime)
                 {
                     ResetCharge();
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    DropBomb(transform.position);
                 }
             }
         }
@@ -48,7 +53,7 @@ namespace Framework.Player
 
             // Check if enough space
 
-            Instantiate(_bomb.prefab, dropPosition, Quaternion.identity);
+            Instantiate(_bombPrefab, dropPosition, Quaternion.identity);
         }
     }
 }

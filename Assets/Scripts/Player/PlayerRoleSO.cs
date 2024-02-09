@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Framework.Bomb;
 
 namespace Framework.Player
 {
@@ -7,7 +8,7 @@ namespace Framework.Player
     [CreateAssetMenu(fileName = "PlayerRoleSO", menuName = "PlayerRoleSO", order = 0)]
     public class PlayerRoleSO : ScriptableObject
     {
-        [SerializeField] private Bomb.BombSO _bomb;
+        [SerializeField] private BombSO _bomb;
 
         [SerializeField] private float _bombRechargeTime;
         

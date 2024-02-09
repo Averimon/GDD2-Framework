@@ -1,7 +1,9 @@
 {
     "name": "Framework.Manager",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:f0d4836962bd9414bac5991103348abc"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

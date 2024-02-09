@@ -4,18 +4,17 @@ namespace Framework.Bomb
 {
     public class Bomb : MonoBehaviour
     {
-        [SerializeField] private float _explosionDuration;
-        [SerializeField] private float _explosionRadius;
-        [SerializeField] private Explosion explosion;
+        [SerializeField] private float _fuseTimer;
+        [SerializeField] private GameObject _explosionPrefab;
 
         private void Awake()
         {
-            Invoke(nameof(Explode), _explosionDuration);
+            Invoke(nameof(Explode), _fuseTimer);
         }
 
         private void Explode()
         {
-            Debug.Log("Boom!");
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Framework.Bomb
 {
-    
     public class BombController : MonoBehaviour
     {
         [SerializeField] private GameObject _bombPrefab;

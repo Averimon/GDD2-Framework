@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4674844536049258963}
   - component: {fileID: 7423222048965829913}
   - component: {fileID: -2717920176107172617}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Box 01
-  m_TagString: Destroyable
+  m_TagString: Destructible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

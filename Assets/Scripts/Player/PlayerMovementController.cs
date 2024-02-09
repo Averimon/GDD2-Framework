@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace Framework.Player
 {
-    public class PlayerInputController : MonoBehaviour
+    public class PlayerMovementController : MonoBehaviour
     {
-        [Header("Movement Settings")]
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private float _moveSpeed;
 

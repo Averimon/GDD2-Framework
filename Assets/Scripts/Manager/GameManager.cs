@@ -58,7 +58,7 @@ namespace Framework.Manager
 
         private void Update()
         {
-            if (AlivePlayerCount <= 1)
+            if (GameState == GameState.Running && AlivePlayerCount <= 1)
             {
                 GameState = GameState.GameOver;
             }

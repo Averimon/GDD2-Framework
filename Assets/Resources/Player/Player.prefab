@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2882504458143010596}
   - component: {fileID: 9104833641439972578}
   - component: {fileID: 3789512719663973668}
+  - component: {fileID: 289585441412804009}
   - component: {fileID: 7110098138776038990}
   - component: {fileID: 6453663006210621802}
   - component: {fileID: 91379235192499637}
@@ -32,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 2721617103122243798}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.985384, y: 0.50000095, z: -4.9906793}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -138,6 +139,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &289585441412804009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721617103122243798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c67dc31f4623174cbf41a3300546f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnPlayerStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _playerMovementController: {fileID: 7110098138776038990}
+  _playerInteractionController: {fileID: 6453663006210621802}
+  _playerBombController: {fileID: 91379235192499637}
 --- !u!114 &7110098138776038990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,5 +195,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a742445b03ecee439f846ac9f0d1e65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bombPrefab: {fileID: 583580200341222094, guid: 88e0ab7cc61f0174da2b7550d76a4edf, type: 3}
+  bombPrefab: {fileID: 0}
   _bombRechargeTime: 2

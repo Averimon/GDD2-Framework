@@ -4,8 +4,9 @@ namespace Framework.Player
 {
     public class PlayerMovementController : MonoBehaviour
     {
+        public float moveSpeed;
+
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private float _moveSpeed;
 
         private float _horizontalInput;
         private float _verticalInput;
@@ -19,7 +20,7 @@ namespace Framework.Player
         private void FixedUpdate()
         {
             Vector3 movementDirection = new Vector3(_horizontalInput, 0, _verticalInput).normalized;
-            _rigidbody.MovePosition(_rigidbody.position + movementDirection * _moveSpeed * Time.fixedDeltaTime);
+            _rigidbody.MovePosition(_rigidbody.position + movementDirection * moveSpeed * Time.fixedDeltaTime);
         }
     }
 }

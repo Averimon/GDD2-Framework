@@ -5,9 +5,8 @@ namespace Framework.Bomb
 {
     public class BombController : MonoBehaviour
     {
-        [SerializeField] private GameObject _bombPrefab;
-
-        [SerializeField] private float _bombRechargeTime;
+        public GameObject bombPrefab;
+        public float bombRechargeTime;
         
         private float _activeRechargeTime;
         private bool _activeRecharge;
@@ -22,9 +21,9 @@ namespace Framework.Bomb
 
             if (_activeRecharge)
             {
-                _activeRechargeTime = Math.Clamp(_activeRechargeTime + Time.deltaTime, 0 , _bombRechargeTime);
+                _activeRechargeTime = Math.Clamp(_activeRechargeTime + Time.deltaTime, 0 , bombRechargeTime);
 
-                if (_activeRechargeTime >= _bombRechargeTime)
+                if (_activeRechargeTime >= bombRechargeTime)
                 {
                     ResetCharge();
                 }
@@ -52,7 +51,7 @@ namespace Framework.Bomb
 
             // Check if enough space
 
-            Instantiate(_bombPrefab, dropPosition, Quaternion.identity);
+            Instantiate(bombPrefab, dropPosition, Quaternion.identity);
         }
     }
 }

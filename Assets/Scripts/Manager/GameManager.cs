@@ -1,28 +1,20 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using Framework.Player;
+using System.Collections.Generic;
 
 namespace Framework.Manager
 {
-    [Serializable]
-    public class GameStateEvent : UnityEvent<GameState>{ }
-
-    public enum GameState
-    {
-        Preperation,
-        Running,
-        GameOver
-    }
-
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
 
-        private List<PlayerInteractionController> _players;
+        // This is a dictionary of spawn points and whether they are occupied or not
+        [SerializeField] private List<Transform> _spawnPoints;
+
+        private Dictionary<Transform, bool> _spawnPointsOccupancy = new Dictionary<Transform, bool>();
+
         private GameState _gameState;
-        
+
         public GameStateEvent OnGameStateChanged;
 
         public GameState GameState
@@ -35,13 +27,12 @@ namespace Framework.Manager
             }
         }
 
-        public int AlivePlayerCount => _players.FindAll(player => player.PlayerState == PlayerState.Alive).Count;
-
         private void Awake()
         {
             if (Instance == null)
             {
                 Instance = this;
+                DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -52,22 +43,55 @@ namespace Framework.Manager
         private void Start()
         {
             GameState = GameState.Preperation;
-            RegisterPlayers();
+            PlayerManager.Instance.OnPlayerCountChanged.AddListener(OnPlayerCountChanged);
+            SetSpawnPointsOccupancy();
+            SpawnPlayers(PlayerManager.Instance.Players);
             GameState = GameState.Running;
         }
 
-        private void Update()
+        private void SetSpawnPointsOccupancy()
         {
-            if (GameState == GameState.Running && AlivePlayerCount <= 1)
+            foreach (Transform spawnPoint in _spawnPoints)
             {
-                GameState = GameState.GameOver;
+                _spawnPointsOccupancy.Add(spawnPoint, false);
             }
         }
 
-        public void RegisterPlayers()
+        private void SpawnPlayers(List<Player.Player> players)
         {
-            _players = new List<PlayerInteractionController>(FindObjectsOfType<PlayerInteractionController>());
+            foreach (Player.Player player in players)
+            {
+                player.GetComponent<Rigidbody>().isKinematic = false;
+                player.transform.position = GetRandomSpawnPoint();
+            }
         }
 
+        private Vector3 GetRandomSpawnPoint()
+        {
+            List<Transform> availableSpawnPoints = new List<Transform>();
+
+            foreach (KeyValuePair<Transform, bool> spawnPoint in _spawnPointsOccupancy)
+            {
+                if (!spawnPoint.Value)
+                {
+                    availableSpawnPoints.Add(spawnPoint.Key);
+                }
+            }
+
+            int randomIndex = Random.Range(0, availableSpawnPoints.Count);
+            return availableSpawnPoints[randomIndex].position;
+        }
+
+        private void OnPlayerCountChanged(int playerCount)
+        {
+            if (playerCount == 1)
+            {
+                GameState = GameState.GameOver;
+            }
+            else if (playerCount == 0)
+            {
+                Debug.LogError("All players seem to be dead. This should never happen!");
+            }
+        }
     }
 }

@@ -1,34 +1,9 @@
-using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Framework.Player
 {
-    [Serializable]
-    public class PlayerStateEvent : UnityEvent<PlayerState>{ }
-
-    public enum PlayerState
-    {
-        Alive,
-        Dead
-    }
-
     public class PlayerInteractionController : MonoBehaviour
     {
-        public PlayerStateEvent OnPlayerStateChanged;
-
-        private PlayerState _playerState;
-
-        public PlayerState PlayerState
-        {
-            get => _playerState;
-            set
-            {
-                _playerState = value;
-                OnPlayerStateChanged?.Invoke(_playerState);
-            }
-        }
-
         private void OnTriggerEnter(Collider collider)
         {
             if (collider.CompareTag("Explosion"))
@@ -41,7 +16,7 @@ namespace Framework.Player
                 if (!isCovered || !hitInfo.collider.CompareTag("Indestructible"))
                 {
                     Debug.Log("Player is hit by explosion!");
-                    PlayerState = PlayerState.Dead;
+                    gameObject.GetComponent<Player>().PlayerState = PlayerState.Dead;
                 }
                 else
                 {

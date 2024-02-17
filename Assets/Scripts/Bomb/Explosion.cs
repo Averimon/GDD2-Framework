@@ -5,10 +5,11 @@ namespace Framework.Bomb
     public class Explosion : MonoBehaviour
     {
         [SerializeField] private float _explosionRadius;
+        [SerializeField] private bool _ignoresWall;
         private float _explosionLifetime;
         private int _playerHits;
         // Layer mask for the explosion collider (only objects on Layer 8 "Reactive" are hit by the explosion)
-        private int _colliderLayerMask = 1 << 8;
+        private readonly int _colliderLayerMask = 1 << 8;
 
         private void Awake()
         {
@@ -28,9 +29,14 @@ namespace Framework.Bomb
             foreach (Collider collider in colliders)
             {
                 // Check if the object is in line of sight (not covered)
-                Vector3 direction = (collider.transform.position - transform.position).normalized;
-                float distance = Vector3.Distance(transform.position, collider.transform.position);
-                RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, distance, ~Physics.IgnoreRaycastLayer, QueryTriggerInteraction.Ignore);
+                RaycastHit[] hits = new RaycastHit[0];
+
+                if (!_ignoresWall)
+                {
+                    Vector3 direction = (collider.transform.position - transform.position).normalized;
+                    float distance = Vector3.Distance(transform.position, collider.transform.position);
+                    hits = Physics.RaycastAll(transform.position, direction, distance, ~Physics.IgnoreRaycastLayer, QueryTriggerInteraction.Ignore);
+                }
                 
                 // Check if the object is covered by an indestructible object
                 bool foundTag = false;
@@ -88,7 +94,6 @@ namespace Framework.Bomb
         {
             if (_playerHits == 0)
             {
-                Debug.Log("All players have been hit by the explosion.");
                 GetComponent<SphereCollider>().enabled = false;
             }
             else if (_playerHits < 0)

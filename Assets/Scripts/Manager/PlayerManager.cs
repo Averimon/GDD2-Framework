@@ -1,20 +1,22 @@
 using System.Collections.Generic;
-using Framework.Bomb;
-using Framework.Player;
-using UnityEditor.SearchService;
+using System.Linq;
 using UnityEngine;
+
+using Framework.Player;
+using Framework.Bomb;
 
 namespace Framework.Manager
 {
     public class PlayerManager : MonoBehaviour
     {
         public static PlayerManager Instance { get; private set; }
-        public List<Player.Player> Players => new List<Player.Player>(_playersConfirmation.Keys);
 
-        private Dictionary<Player.Player, bool> _playersConfirmation = new Dictionary<Player.Player, bool>();
-        private int _alivePlayerCount;
-
+        public List<Player.Player> Players { get; private set; } = new List<Player.Player>();
         public PlayerCountEvent OnPlayerCountChanged;
+
+        // This is a dictionary of spawn points and whether they are occupied or not
+        private Dictionary<Transform, bool> _spawnPointsOccupancy = new Dictionary<Transform, bool>();
+        private int _alivePlayerCount;
 
         public int AlivePlayerCount
         {
@@ -38,32 +40,66 @@ namespace Framework.Manager
                 Destroy(gameObject);
             }
         }
-
-        public void RegisterPlayer(PlayerRole playerRole)
+        
+        public void InitalizePlayers(List<Player.Player> players)
         {
-            Debug.Log("Registering player with role: " + playerRole.name);
-            
-            GameObject playerObj = Instantiate(Resources.Load("Player/Player")) as GameObject;
-            Player.Player player = playerObj.GetComponent<Player.Player>();
+            Players.Clear();
 
-            player.PlayerRole = playerRole;
+            foreach (Player.Player player in players)
+            {
+                player.OnPlayerStateChanged.AddListener(OnPlayerStateChanged);
+                player.transform.parent = null;
+                DontDestroyOnLoad(player.gameObject);
 
-            playerObj.GetComponent<Rigidbody>().isKinematic = true;
-            playerObj.GetComponent<BombController>().bombPrefab = playerRole.bombPrefab;
-
-            _playersConfirmation.Add(player, false);
-            player.OnPlayerStateChanged.AddListener(OnPlayerStateChanged);
-            AlivePlayerCount++;
+                Players.Add(player);
+                AlivePlayerCount++;
+            }
         }
 
-        public void SetPlayerConfirmation(Player.Player player, bool confirmation)
+        public void InitalizeSpawnPoints()
         {
-            _playersConfirmation[player] = confirmation;
-
-            if (!_playersConfirmation.ContainsValue(false))
+            _spawnPointsOccupancy.Clear();
+            
+            GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            foreach (GameObject spawnPoint in spawnPoints)
             {
-                SceneManager.Instance.LoadScene("GameScene");
+                _spawnPointsOccupancy.Add(spawnPoint.transform, false);
             }
+
+        }
+
+        public void SpawnPlayers()
+        {
+            foreach (Player.Player player in Players)
+            {
+                Vector3 spawnPoint = GetRandomSpawnPoint();
+                _spawnPointsOccupancy[_spawnPointsOccupancy.First(x => x.Key.position == spawnPoint).Key] = true;
+                
+                player.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                player.transform.position = spawnPoint;
+
+                player.GetComponent<Rigidbody>().isKinematic = false;
+                player.GetComponent<PlayerMovementController>().enabled = true;
+                player.GetComponent<BombController>().enabled = true;
+
+                player.PlayerAnimator.SetBool("IsInGame", true);
+            }
+        }
+
+        private Vector3 GetRandomSpawnPoint()
+        {
+            List<Transform> availableSpawnPoints = new List<Transform>();
+
+            foreach (KeyValuePair<Transform, bool> spawnPoint in _spawnPointsOccupancy)
+            {
+                if (!spawnPoint.Value)
+                {
+                    availableSpawnPoints.Add(spawnPoint.Key);
+                }
+            }
+
+            int randomIndex = Random.Range(0, availableSpawnPoints.Count);
+            return availableSpawnPoints[randomIndex].position;
         }
 
         private void OnPlayerStateChanged(PlayerState playerState)

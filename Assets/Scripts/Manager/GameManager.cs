@@ -1,6 +1,4 @@
 using UnityEngine;
-using Framework.Player;
-using System.Collections.Generic;
 
 namespace Framework.Manager
 {
@@ -8,14 +6,9 @@ namespace Framework.Manager
     {
         public static GameManager Instance { get; private set; }
 
-        // This is a dictionary of spawn points and whether they are occupied or not
-        [SerializeField] private List<Transform> _spawnPoints;
-
-        private Dictionary<Transform, bool> _spawnPointsOccupancy = new Dictionary<Transform, bool>();
+        public GameStateEvent OnGameStateChanged;
 
         private GameState _gameState;
-
-        public GameStateEvent OnGameStateChanged;
 
         public GameState GameState
         {
@@ -44,42 +37,9 @@ namespace Framework.Manager
         {
             GameState = GameState.Preperation;
             PlayerManager.Instance.OnPlayerCountChanged.AddListener(OnPlayerCountChanged);
-            SetSpawnPointsOccupancy();
-            SpawnPlayers(PlayerManager.Instance.Players);
+            PlayerManager.Instance.InitalizeSpawnPoints();
+            PlayerManager.Instance.SpawnPlayers();
             GameState = GameState.Running;
-        }
-
-        private void SetSpawnPointsOccupancy()
-        {
-            foreach (Transform spawnPoint in _spawnPoints)
-            {
-                _spawnPointsOccupancy.Add(spawnPoint, false);
-            }
-        }
-
-        private void SpawnPlayers(List<Player.Player> players)
-        {
-            foreach (Player.Player player in players)
-            {
-                player.GetComponent<Rigidbody>().isKinematic = false;
-                player.transform.position = GetRandomSpawnPoint();
-            }
-        }
-
-        private Vector3 GetRandomSpawnPoint()
-        {
-            List<Transform> availableSpawnPoints = new List<Transform>();
-
-            foreach (KeyValuePair<Transform, bool> spawnPoint in _spawnPointsOccupancy)
-            {
-                if (!spawnPoint.Value)
-                {
-                    availableSpawnPoints.Add(spawnPoint.Key);
-                }
-            }
-
-            int randomIndex = Random.Range(0, availableSpawnPoints.Count);
-            return availableSpawnPoints[randomIndex].position;
         }
 
         private void OnPlayerCountChanged(int playerCount)

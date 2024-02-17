@@ -5,10 +5,14 @@ namespace Framework.Player
 {
     public class Player : MonoBehaviour
     {
+        public PlayerStateEvent OnPlayerStateChanged;
+
+        public int PlayerNumber = -1;
+
+        public Animator PlayerAnimator { get; private set; }
+
         private PlayerRole _playerRole;
         private PlayerState _playerState;
-
-        public PlayerStateEvent OnPlayerStateChanged;
 
         public PlayerState PlayerState
         {
@@ -26,15 +30,10 @@ namespace Framework.Player
             set
             {
                 _playerRole = value;
-                ApplyRole();
+                if (_playerRole) ApplyRole();
             }
         }
-
-        private void Awake()
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-
+        
         private void ApplyRole()
         {
             PlayerMovementController playerMovementController = GetComponent<PlayerMovementController>();
@@ -44,6 +43,32 @@ namespace Framework.Player
 
             bombController.bombPrefab = _playerRole.bombPrefab;
             bombController.bombRechargeTime = _playerRole.bombRechargeTime;
+
+            PlayerAnimator = GetComponentInChildren<Animator>();
+        }
+
+        public void Die()
+        {
+            PlayerState = PlayerState.Dead;
+            PlayerAnimator.SetTrigger("Die");
+            GetComponent<PlayerMovementController>().enabled = false;
+            GetComponent<BombController>().enabled = false;
+        }
+
+        public void SwitchPlayerModel(GameObject playerModel)
+        {
+            if (transform.childCount > 0)
+            {
+                // If the player model has already been swapped, destroy the old model
+                Destroy(transform.GetChild(0).gameObject);
+            }
+            else
+            {
+                // First time swapping model, disable the default model
+                GetComponent<MeshRenderer>().enabled = false;
+            }
+
+            Instantiate(playerModel, transform);
         }
     }
 }

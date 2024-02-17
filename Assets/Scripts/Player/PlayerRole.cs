@@ -6,6 +6,7 @@ namespace Framework.Player
     public class PlayerRole : ScriptableObject
     {
         [Header("Player")]
+        public GameObject playerModel;
         public float moveSpeed = 3f;
 
         [Header("Bomb")]

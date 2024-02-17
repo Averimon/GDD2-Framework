@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 115a6e6ac66bacd44b7279ed27bd18e9, type: 3}
-  m_Name: BasicPlayer
+  m_Name: SpeedPlayer
   m_EditorClassIdentifier: 
-  playerModel: {fileID: 5113730502608171549, guid: 082ad147aa9f533418f9947e2cb9b40e, type: 3}
-  moveSpeed: 3
+  playerModel: {fileID: 9212904135417272900, guid: 187f1b5765e5cbc40addf950d901939a, type: 3}
+  moveSpeed: 5
   bombPrefab: {fileID: 583580200341222094, guid: 88e0ab7cc61f0174da2b7550d76a4edf, type: 3}
   bombRechargeTime: 2

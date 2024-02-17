@@ -7,6 +7,7 @@ TagManager:
   - Explosion
   - Indestructible
   - Destructible
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX

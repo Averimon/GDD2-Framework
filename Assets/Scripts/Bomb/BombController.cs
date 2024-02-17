@@ -5,6 +5,7 @@ namespace Framework.Bomb
 {
     public class BombController : MonoBehaviour
     {
+        // TODO: Remove bombPrefab and bombRechargeTime since they are now in PlayerRole
         public GameObject bombPrefab;
         public float bombRechargeTime;
         

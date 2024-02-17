@@ -8,6 +8,8 @@ TagManager:
   - Indestructible
   - Destructible
   - SpawnPoint
+  - Air
+  - ExplosionMark
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - 
   - Reactive
   - 
-  - 
+  - Air
   - 
   - 
   - 

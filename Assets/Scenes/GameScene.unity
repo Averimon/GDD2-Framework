@@ -516,6 +516,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2371263650320682447, guid: 31f16aaabe5fe1d439495814d75dbc01, type: 3}
+      propertyPath: m_Name
+      value: MarksGrid
+      objectReference: {fileID: 0}
+    - target: {fileID: 3990651957069447000, guid: 31f16aaabe5fe1d439495814d75dbc01, type: 3}
+      propertyPath: m_Name
+      value: WallsGrid
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406172959558577706, guid: 31f16aaabe5fe1d439495814d75dbc01, type: 3}
+      propertyPath: m_Name
+      value: BoxesGrid
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124938664780155872, guid: 31f16aaabe5fe1d439495814d75dbc01, type: 3}
+      propertyPath: m_Name
+      value: AirGrid
+      objectReference: {fileID: 0}
     - target: {fileID: 7566038638133692305, guid: 31f16aaabe5fe1d439495814d75dbc01, type: 3}
       propertyPath: m_Name
       value: GameBoard

@@ -4,8 +4,8 @@ namespace Framework.Bomb
 {
     public class Bomb : MonoBehaviour
     {
-        [SerializeField] private float _fuseTimer;
         [SerializeField] private GameObject _explosionPrefab;
+        [SerializeField] private float _fuseTimer;
 
         private void Awake()
         {
@@ -14,7 +14,9 @@ namespace Framework.Bomb
 
         private void Explode()
         {
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Vector3 updatedPosition = new Vector3(transform.position.x, 0f, transform.position.z);
+
+            Instantiate(_explosionPrefab, updatedPosition, Quaternion.identity);
             Destroy(gameObject);
         }
     }

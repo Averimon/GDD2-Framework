@@ -48,7 +48,7 @@ namespace Framework.Manager
             foreach (Player.Player player in players)
             {
                 player.OnPlayerStateChanged.AddListener(OnPlayerStateChanged);
-                player.transform.parent = null;
+                player.transform.SetParent(null);
                 DontDestroyOnLoad(player.gameObject);
 
                 Players.Add(player);

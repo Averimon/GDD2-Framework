@@ -1,5 +1,6 @@
 using UnityEngine;
 using Framework.Bomb;
+using System.Collections.Generic;
 
 namespace Framework.Player
 {
@@ -8,6 +9,7 @@ namespace Framework.Player
         public PlayerStateEvent OnPlayerStateChanged;
 
         public int PlayerNumber = -1;
+        public List<ExplosionMark> explosionMarksAffectingPlayer = new List<ExplosionMark>();
 
         public Animator PlayerAnimator { get; private set; }
 
@@ -39,7 +41,7 @@ namespace Framework.Player
             PlayerMovementController playerMovementController = GetComponent<PlayerMovementController>();
             BombController bombController = GetComponent<BombController>();
 
-            playerMovementController.moveSpeed = _playerRole.moveSpeed;
+            playerMovementController.initialMoveSpeed = _playerRole.moveSpeed;
 
             bombController.bombPrefab = _playerRole.bombPrefab;
             bombController.bombRechargeTime = _playerRole.bombRechargeTime;

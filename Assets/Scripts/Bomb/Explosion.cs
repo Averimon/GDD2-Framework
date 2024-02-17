@@ -1,15 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework.Bomb
 {
     public class Explosion : MonoBehaviour
     {
+        [SerializeField] private GameObject _explosionMarkPrefab;
         [SerializeField] private float _explosionRadius;
         [SerializeField] private bool _ignoresWall;
+        
         private float _explosionLifetime;
         private int _playerHits;
-        // Layer mask for the explosion collider (only objects on Layer 8 "Reactive" are hit by the explosion)
-        private readonly int _colliderLayerMask = 1 << 8;
+        // Layer mask for the explosion collider (only objects on Layer 8 "Reactive" and Layer 10 "Air" are hit by the explosion)
+        private readonly int _colliderLayerMask = 1 << 8 | 1 << 10;
+        private Transform _airGrid;
 
         private void Awake()
         {
@@ -24,7 +28,11 @@ namespace Framework.Bomb
         {
             // Find all objects in the explosion radius
             Collider[] colliders = Physics.OverlapSphere(transform.position, _explosionRadius, _colliderLayerMask, QueryTriggerInteraction.Ignore);
+            List<Transform> hitObjects = new List<Transform>();
+            List<Transform> hitPlayers = new List<Transform>();
             
+            _airGrid = GameObject.Find("AirGrid").transform;
+
             // Check if the objects are destructible or players
             foreach (Collider collider in colliders)
             {
@@ -52,15 +60,32 @@ namespace Framework.Bomb
                 // If the object is not covered, register a hit
                 if (!foundTag)
                 {
+                    GameObject airPrefab = Resources.Load<GameObject>("Models/Environment/Air");
+
                     if (collider.CompareTag("Destructible"))
                     {
+                        hitObjects.Add(collider.transform);
                         Destroy(collider.gameObject);
+
+                        GameObject air = Instantiate(airPrefab, collider.transform.position, Quaternion.identity);
+                        air.transform.SetParent(_airGrid);
                     }
                     else if (collider.CompareTag("Player"))
                     {
+                        hitPlayers.Add(collider.transform);
                         _playerHits++;
                     }
+                    else if (collider.CompareTag("Air"))
+                    {
+                        hitObjects.Add(collider.transform);
+                    }
+                    // TODO: Add ability to bomb explosion marks
                 }
+            }
+
+            if (_explosionMarkPrefab != null)
+            {
+                ApplyExplosionMarks(hitObjects, hitPlayers);
             }
 
             // Check if players are even hit by the explosion
@@ -110,6 +135,37 @@ namespace Framework.Bomb
                 if (particleSystem.main.startLifetime.constant > _explosionLifetime)
                 {
                     _explosionLifetime = particleSystem.main.startLifetime.constant;
+                }
+            }
+        }
+        
+        public void ApplyExplosionMarks(List<Transform> hitObjects, List<Transform> hitPlayers)
+        {
+            Transform marksGrid = GameObject.Find("MarksGrid").transform;
+            ExplosionMark _explosionMark = _explosionMarkPrefab.GetComponent<ExplosionMark>();
+
+            foreach (Transform hitObject in hitObjects)
+            {
+                Vector3 updatedPosition = new Vector3(hitObject.position.x, 0f, hitObject.position.z);
+                float randomLifetime = Random.Range(_explosionMark.lifetime - _explosionMark.lifetimeEpsilon, _explosionMark.lifetime + _explosionMark.lifetimeEpsilon);
+
+                if (_explosionMark.isOnGround)
+                {
+                    GameObject mark = Instantiate(_explosionMarkPrefab, updatedPosition, Quaternion.identity);
+                    mark.transform.SetParent(marksGrid);
+                    mark.GetComponent<ExplosionMark>().ToBeDestroyed(randomLifetime);
+                }
+            }
+
+            foreach (Transform hitPlayer in hitPlayers)
+            {
+                float randomLifetime = Random.Range(_explosionMark.lifetime - _explosionMark.lifetimeEpsilon, _explosionMark.lifetime + _explosionMark.lifetimeEpsilon);
+
+                if (_explosionMark.sticksToPlayers)
+                {
+                    GameObject mark = Instantiate(_explosionMarkPrefab, hitPlayer.position, Quaternion.identity);
+                    mark.transform.SetParent(hitPlayer);
+                    Destroy(mark, randomLifetime);
                 }
             }
         }

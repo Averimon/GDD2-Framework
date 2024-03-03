@@ -4936,7 +4936,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa74dcb33662de4f82659469a5d6b03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _explosionRadius: 1
+  _explosionMarkPrefab: {fileID: 0}
+  _explosionRadius: 1.5
+  _ignoresWall: 0
 --- !u!135 &1969322895906483925
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 115a6e6ac66bacd44b7279ed27bd18e9, type: 3}
-  m_Name: IcePlayer
+  m_Name: SlimePlayer
   m_EditorClassIdentifier: 
-  playerModel: {fileID: 9212904135417272900, guid: 187f1b5765e5cbc40addf950d901939a, type: 3}
+  playerModel: {fileID: 40552486449022211, guid: c53781721aa0818439b3472da2337d95, type: 3}
   moveSpeed: 3
-  bombPrefab: {fileID: 7267320847814477804, guid: 016adc289a7267544aa240b7e209161c, type: 3}
+  bombPrefab: {fileID: 7267320847814477804, guid: 960987531f23c4b4d89d6c5c9f2872ba, type: 3}
   bombRechargeTime: 2

@@ -12,8 +12,6 @@ namespace Framework.Selection
 {
     public class SelectionHandler : MonoBehaviour
     {
-
-        [SerializeField] private List<PlayerRole> _availablePlayerRoles;
         [SerializeField] private GameObject _registerPlayerUI;
         [SerializeField] private GameObject _selectPlayerUI;
         [SerializeField] private Player.Player _player;
@@ -26,6 +24,7 @@ namespace Framework.Selection
 
         // This is a list of all players and if they have confirmed their role or not
         private List<Player.Player> _players = new List<Player.Player>();
+        private List<PlayerRole> _availablePlayerRoles = new List<PlayerRole>();
     
         // Player counts as confirmed if its role is not null
         private bool AllPlayersConfirmed => _players.All(p => p.PlayerRole);
@@ -36,7 +35,7 @@ namespace Framework.Selection
         private void Start()
         {
             // Load all player roles if none specified
-            if (_availablePlayerRoles.Count == 0) LoadPlayerRolesFromResources();
+            LoadPlayerRolesFromResources();
 
             _selectedRole = _availablePlayerRoles[0];
             _bombNameText.text = _selectedRole.name;
@@ -61,7 +60,7 @@ namespace Framework.Selection
             _availablePlayerRoles.Clear();
             // Load all player roles from scriptableobjects folder
             
-            foreach (PlayerRole playerRole in Resources.LoadAll<PlayerRole>("PlayerRoles"))
+            foreach (PlayerRole playerRole in Resources.LoadAll<PlayerRole>("PlayerRoles/AvailableRoles"))
             {
                 _availablePlayerRoles.Add(playerRole);
             }

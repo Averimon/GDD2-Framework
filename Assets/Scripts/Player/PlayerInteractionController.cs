@@ -25,15 +25,20 @@ namespace Framework.Player
             else if (collider.CompareTag("ExplosionMark"))
             {
                 // TODO: Check if player has that kind of bomb -> ignores effect
+
                 ExplosionMark explosionMark = collider.GetComponent<ExplosionMark>();
                 GetComponent<Player>().explosionMarksAffectingPlayer.Add(explosionMark);
+                PlayerMovementController playerMovementController = GetComponent<PlayerMovementController>();
 
                 if (explosionMark.isSticky)
                 {
-                    GetComponent<PlayerMovementController>().currentMoveSpeed = GetComponent<PlayerMovementController>().initialMoveSpeed * 0.5f;
+                    playerMovementController.currentMoveSpeed = playerMovementController.initialMoveSpeed * 0.5f;
                 }
-
-                // TODO: Add slippery effect
+                if (explosionMark.isSlippery)
+                {
+                    playerMovementController.slidingFactor = 0.97f;
+                    playerMovementController.directionChangeSpeed = 5f;
+                }
             }
         }
 
@@ -49,6 +54,14 @@ namespace Framework.Player
                     if (GetComponent<Player>().explosionMarksAffectingPlayer.Find(mark => mark.isSticky) == null)
                     {
                         GetComponent<PlayerMovementController>().currentMoveSpeed = GetComponent<PlayerMovementController>().initialMoveSpeed;
+                    }
+                }
+                if (explosionMark.isSlippery)
+                {
+                    if (GetComponent<Player>().explosionMarksAffectingPlayer.Find(mark => mark.isSlippery) == null)
+                    {
+                        GetComponent<PlayerMovementController>().slidingFactor = 0.0f;
+                        GetComponent<PlayerMovementController>().directionChangeSpeed = 100.0f;
                     }
                 }
             }

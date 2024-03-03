@@ -6,40 +6,60 @@ namespace Framework.Player
     {
         public float initialMoveSpeed;
         public float currentMoveSpeed;
-        
-        private CharacterController _controller;
+        public float slidingFactor;
+        public float directionChangeSpeed;
 
-        private float _horizontalInput;
-        private float _verticalInput;
+        private CharacterController _controller;
+        private Vector3 _targetDirection;
+        private Vector3 _currentVelocity;
 
         void Start()
         {
             _controller = GetComponent<CharacterController>();
 
             currentMoveSpeed = initialMoveSpeed;
+            slidingFactor = 0.0f;
+            directionChangeSpeed = 100.0f;
+            _targetDirection = Vector3.zero;
         }
 
         private void Update()
         {
-            _horizontalInput = Input.GetAxisRaw("Horizontal");
-            _verticalInput = Input.GetAxisRaw("Vertical");
+            _targetDirection.x = Input.GetAxisRaw("Horizontal");
+            _targetDirection.z = Input.GetAxisRaw("Vertical");
+            _targetDirection.Normalize();
 
-            bool isMoving = _horizontalInput != 0 || _verticalInput != 0;
+            bool isMoving = _targetDirection.magnitude != 0;
             GetComponent<Player>().PlayerAnimator.SetBool("IsMoving", isMoving);
         }
         
         private void FixedUpdate()
         {
-            Vector3 movementDirection = new Vector3(_horizontalInput, 0, _verticalInput).normalized;
-            
-            if (movementDirection.magnitude != 0)
+            if (_targetDirection.magnitude != 0)
             {
-                _controller.Move(movementDirection * currentMoveSpeed * Time.fixedDeltaTime);
+                Vector3 desiredVelocity = _targetDirection * currentMoveSpeed;
+                _currentVelocity = Vector3.MoveTowards(_currentVelocity, desiredVelocity, directionChangeSpeed * Time.fixedDeltaTime);
+            }
+            else 
+            {
+                if (slidingFactor > 0.0f)
+                {
+                    _currentVelocity *= slidingFactor;
+                }
+                else
+                {
+                    _currentVelocity = Vector3.zero;
+                }
+            }
+            
+            if (_currentVelocity.magnitude != 0)
+            {
+                _controller.Move(_currentVelocity * Time.fixedDeltaTime);
             }
 
-            if (movementDirection != Vector3.zero)
+            if (_targetDirection != Vector3.zero)
             {
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(movementDirection), 800 * Time.fixedDeltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(_targetDirection), 800 * Time.fixedDeltaTime);
             }
         }
     }

@@ -3716,7 +3716,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1196709122480137946}
   m_Layer: 0
-  m_Name: Marks
+  m_Name: MarksGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7109,7 +7109,7 @@ GameObject:
   - component: {fileID: 4449322548415049240}
   - component: {fileID: 7074794222061835266}
   m_Layer: 0
-  m_Name: Walls
+  m_Name: WallsGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8298,7 +8298,7 @@ GameObject:
   - component: {fileID: 4374745103831979068}
   - component: {fileID: 4018296945202660470}
   m_Layer: 0
-  m_Name: Boxes
+  m_Name: BoxesGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14268,7 +14268,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 10, y: 0.3, z: 10}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.15, z: 0}
 --- !u!1 &6919050894124639609
 GameObject:
   m_ObjectHideFlags: 0
@@ -14701,7 +14701,7 @@ GameObject:
   - component: {fileID: 514976914660048393}
   - component: {fileID: 8552945493483275641}
   m_Layer: 0
-  m_Name: Air
+  m_Name: AirGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

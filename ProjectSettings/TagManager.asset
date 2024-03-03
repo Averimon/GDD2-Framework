@@ -10,6 +10,7 @@ TagManager:
   - SpawnPoint
   - Air
   - ExplosionMark
+  - CinemachineTarget
   layers:
   - Default
   - TransparentFX

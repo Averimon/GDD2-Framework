@@ -75,10 +75,9 @@ namespace Framework.Manager
                 Vector3 spawnPoint = GetRandomSpawnPoint();
                 _spawnPointsOccupancy[_spawnPointsOccupancy.First(x => x.Key.position == spawnPoint).Key] = true;
                 
-                player.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                player.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
                 player.transform.position = spawnPoint;
-
-                player.GetComponent<Rigidbody>().isKinematic = false;
+                
                 player.GetComponent<PlayerMovementController>().enabled = true;
                 player.GetComponent<BombController>().enabled = true;
 

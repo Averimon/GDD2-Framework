@@ -61,7 +61,7 @@ namespace Framework.Selection
             _availablePlayerRoles.Clear();
             // Load all player roles from scriptableobjects folder
             
-            foreach (PlayerRole playerRole in Resources.LoadAll<PlayerRole>("Player/PlayerRoles"))
+            foreach (PlayerRole playerRole in Resources.LoadAll<PlayerRole>("PlayerRoles"))
             {
                 _availablePlayerRoles.Add(playerRole);
             }

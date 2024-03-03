@@ -6,14 +6,16 @@ namespace Framework.Player
     {
         public float initialMoveSpeed;
         public float currentMoveSpeed;
-
-        [SerializeField] private Rigidbody _rigidbody;
+        
+        private CharacterController _controller;
 
         private float _horizontalInput;
         private float _verticalInput;
 
         void Start()
         {
+            _controller = GetComponent<CharacterController>();
+
             currentMoveSpeed = initialMoveSpeed;
         }
 
@@ -29,7 +31,12 @@ namespace Framework.Player
         private void FixedUpdate()
         {
             Vector3 movementDirection = new Vector3(_horizontalInput, 0, _verticalInput).normalized;
-            _rigidbody.MovePosition(_rigidbody.position + movementDirection * currentMoveSpeed * Time.fixedDeltaTime);
+            
+            if (movementDirection.magnitude != 0)
+            {
+                _controller.Move(movementDirection * currentMoveSpeed * Time.fixedDeltaTime);
+            }
+
             if (movementDirection != Vector3.zero)
             {
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(movementDirection), 800 * Time.fixedDeltaTime);

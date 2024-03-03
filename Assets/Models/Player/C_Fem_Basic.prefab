@@ -2906,7 +2906,7 @@ GameObject:
   - component: {fileID: 7685478577883784}
   - component: {fileID: 5014970745977661343}
   m_Layer: 8
-  m_Name: FemaleCharacter
+  m_Name: C_Fem_Basic
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

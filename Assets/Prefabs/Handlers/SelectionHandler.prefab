@@ -44,7 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48cbc01cb9790404d833ebfa3a11fb80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _availableBombs:
-  - {fileID: -1045846349313358642, guid: 88e0ab7cc61f0174da2b7550d76a4edf, type: 3}
-  - {fileID: 2143597554511000044, guid: 11da971b9445d5f4485a6bbfe217eca3, type: 3}
+  _availablePlayerRoles:
+  - {fileID: 11400000, guid: f9f5071b738dce24abd61c4a717b84ac, type: 2}
+  - {fileID: 11400000, guid: dc71a83528a112449a8f9bc842480e47, type: 2}
+  - {fileID: 11400000, guid: c6143fd1cfeb3ae46acd98b971bf2ed6, type: 2}
+  _registerPlayerUI: {fileID: 0}
+  _selectPlayerUI: {fileID: 0}
+  _player: {fileID: 0}
+  _startButton: {fileID: 0}
+  _selectButton: {fileID: 0}
+  _goLeftButton: {fileID: 0}
+  _goRightButton: {fileID: 0}
+  _playerConfirmationText: {fileID: 0}
   _bombNameText: {fileID: 0}

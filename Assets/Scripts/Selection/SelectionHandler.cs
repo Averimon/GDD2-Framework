@@ -12,7 +12,6 @@ namespace Framework.Selection
 {
     public class SelectionHandler : MonoBehaviour
     {
-        [SerializeField] private GameObject _registerPlayerUI;
         [SerializeField] private GameObject _selectPlayerUI;
         [SerializeField] private Player.Player _player;
         [SerializeField] private Button _startButton;
@@ -41,7 +40,6 @@ namespace Framework.Selection
             _bombNameText.text = _selectedRole.name;
             _registered = false;
 
-            _registerPlayerUI.SetActive(true);
             _selectPlayerUI.SetActive(false);
 
             _startButton.onClick.AddListener(StartGame);
@@ -74,7 +72,6 @@ namespace Framework.Selection
             _player.PlayerNumber = _players.Count - 1;
             _player.SwitchPlayerModel(_selectedRole.playerModel);
 
-            _registerPlayerUI.SetActive(false);
             _selectPlayerUI.SetActive(true);
             _registered = true;
 

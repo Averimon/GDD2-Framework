@@ -18,6 +18,8 @@ namespace Framework.Bomb
 
         public readonly float destroyingProcess = 0.2f;
 
+        public int authorID;
+
         // Move collider to trigger OnTriggerExit event
         public void ToBeDestroyed(float setLifetime)
         {

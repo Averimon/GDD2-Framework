@@ -24,7 +24,7 @@ namespace Framework.Player
             }
             else if (collider.CompareTag("ExplosionMark"))
             {
-                // TODO: Check if player has that kind of bomb -> ignores effect
+                if (GetComponent<Player>().PlayerID == collider.GetComponent<ExplosionMark>().authorID) return;
 
                 ExplosionMark explosionMark = collider.GetComponent<ExplosionMark>();
                 GetComponent<Player>().explosionMarksAffectingPlayer.Add(explosionMark);

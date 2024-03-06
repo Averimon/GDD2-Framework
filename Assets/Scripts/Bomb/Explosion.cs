@@ -5,7 +5,8 @@ namespace Framework.Bomb
 {
     public class Explosion : MonoBehaviour
     {
-        [SerializeField] private GameObject _explosionMarkPrefab;
+        public GameObject ExplosionMarkPrefab;
+
         [SerializeField] private float _explosionRadius;
         [SerializeField] private bool _ignoresWall;
         
@@ -83,7 +84,7 @@ namespace Framework.Bomb
                 }
             }
 
-            if (_explosionMarkPrefab != null)
+            if (ExplosionMarkPrefab != null)
             {
                 ApplyExplosionMarks(hitObjects, hitPlayers);
             }
@@ -142,32 +143,36 @@ namespace Framework.Bomb
         public void ApplyExplosionMarks(List<Transform> hitObjects, List<Transform> hitPlayers)
         {
             Transform marksGrid = GameObject.Find("MarksGrid").transform;
-            ExplosionMark _explosionMark = _explosionMarkPrefab.GetComponent<ExplosionMark>();
+            ExplosionMark _explosionMark = ExplosionMarkPrefab.GetComponent<ExplosionMark>();
 
             foreach (Transform hitObject in hitObjects)
             {
-                Vector3 updatedPosition = new Vector3(hitObject.position.x, 0f, hitObject.position.z);
-                float randomLifetime = Random.Range(_explosionMark.lifetime - _explosionMark.lifetimeEpsilon, _explosionMark.lifetime + _explosionMark.lifetimeEpsilon);
-
                 if (_explosionMark.isOnGround)
                 {
-                    GameObject mark = Instantiate(_explosionMarkPrefab, updatedPosition, Quaternion.identity);
+                    Vector3 updatedPosition = new Vector3(hitObject.position.x, 0f, hitObject.position.z);
+                    float randomLifetime = Random.Range(_explosionMark.lifetime - _explosionMark.lifetimeEpsilon, _explosionMark.lifetime + _explosionMark.lifetimeEpsilon);
+
+                    GameObject mark = Instantiate(ExplosionMarkPrefab, updatedPosition, Quaternion.identity);
+                    ExplosionMark explosionMark = mark.GetComponent<ExplosionMark>();
+
                     mark.transform.SetParent(marksGrid);
-                    mark.GetComponent<ExplosionMark>().ToBeDestroyed(randomLifetime);
+                    explosionMark.ToBeDestroyed(randomLifetime);
                 }
             }
 
+            /*
             foreach (Transform hitPlayer in hitPlayers)
             {
-                float randomLifetime = Random.Range(_explosionMark.lifetime - _explosionMark.lifetimeEpsilon, _explosionMark.lifetime + _explosionMark.lifetimeEpsilon);
-
                 if (_explosionMark.sticksToPlayers)
                 {
+                    float randomLifetime = Random.Range(_explosionMark.lifetime - _explosionMark.lifetimeEpsilon, _explosionMark.lifetime + _explosionMark.lifetimeEpsilon);
+
                     GameObject mark = Instantiate(_explosionMarkPrefab, hitPlayer.position, Quaternion.identity);
                     mark.transform.SetParent(hitPlayer);
                     Destroy(mark, randomLifetime);
                 }
             }
+            */
         }
     }
 }

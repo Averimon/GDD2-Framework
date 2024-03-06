@@ -9,6 +9,9 @@ namespace Framework.Player
         public PlayerStateEvent OnPlayerStateChanged;
 
         public int PlayerID = -1;
+        // List of explosion marks that are affecting the player
+        // Checks if the player is still effected by an explosion mark (of same type) when leaving another mark
+        // Used for checks on effect removal
         public List<ExplosionMark> explosionMarksAffectingPlayer = new List<ExplosionMark>();
 
         public Animator PlayerAnimator { get; private set; }
@@ -45,6 +48,7 @@ namespace Framework.Player
 
             bombController.bombPrefab = _playerRole.bombPrefab;
             bombController.bombRechargeTime = _playerRole.bombRechargeTime;
+            bombController.bombPrefab.GetComponent<Bomb.Bomb>().authorID = PlayerID;
 
             PlayerAnimator = GetComponentInChildren<Animator>();
         }

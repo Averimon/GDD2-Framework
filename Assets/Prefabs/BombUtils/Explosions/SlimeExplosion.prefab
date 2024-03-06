@@ -13,6 +13,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 116371470432394399, guid: 7096f9d435c20a244ae7eb17e92cbd07, type: 3}
     - target: {fileID: -7595331064562828685, guid: 335ef40f59600704fba01776c03d411a, type: 3}
+      propertyPath: ExplosionMarkPrefab
+      value: 
+      objectReference: {fileID: 4637233739127799390, guid: 7096f9d435c20a244ae7eb17e92cbd07, type: 3}
+    - target: {fileID: -7595331064562828685, guid: 335ef40f59600704fba01776c03d411a, type: 3}
       propertyPath: _explosionMarkPrefab
       value: 
       objectReference: {fileID: 4637233739127799390, guid: 7096f9d435c20a244ae7eb17e92cbd07, type: 3}

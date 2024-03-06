@@ -11,6 +11,7 @@ namespace Framework.Player
 
         [Header("Bomb")]
         public GameObject bombPrefab;
-        public float bombRechargeTime = 2f;
+        public int maxBombCount = 2;
+        public float bombPushForce = 3f;
     }
 }

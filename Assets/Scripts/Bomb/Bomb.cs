@@ -1,17 +1,21 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Framework.Bomb
 {
     public class Bomb : MonoBehaviour
     {
         public int authorID;
+        public float fuseTimer;
 
         [SerializeField] private GameObject _explosionPrefab;
-        [SerializeField] private float _fuseTimer;
 
-        private void Awake()
+        public UnityEvent OnBombExploded;
+
+        public void DropBomb()
         {
-            Invoke(nameof(Explode), _fuseTimer);
+            Debug.Log(fuseTimer);
+            Invoke(nameof(Explode), fuseTimer);
         }
 
         private void Explode()
@@ -22,6 +26,7 @@ namespace Framework.Bomb
             GameObject explosionMarkObj = explosionObj.GetComponent<Explosion>().ExplosionMarkPrefab;
 
             if (explosionMarkObj) explosionMarkObj.GetComponent<ExplosionMark>().authorID = authorID;
+            OnBombExploded?.Invoke();
             Destroy(gameObject);
         }
     }

@@ -42,14 +42,9 @@ namespace Framework.Player
         private void ApplyRole()
         {
             PlayerMovementController playerMovementController = GetComponent<PlayerMovementController>();
-            BombController bombController = GetComponent<BombController>();
 
             playerMovementController.initialMoveSpeed = _playerRole.moveSpeed;
-
-            bombController.bombPrefab = _playerRole.bombPrefab;
-            bombController.bombRechargeTime = _playerRole.bombRechargeTime;
-            bombController.bombPrefab.GetComponent<Bomb.Bomb>().authorID = PlayerID;
-
+            _playerRole.bombPrefab.GetComponent<Bomb.Bomb>().authorID = PlayerID;
             PlayerAnimator = GetComponentInChildren<Animator>();
         }
 
@@ -58,7 +53,6 @@ namespace Framework.Player
             PlayerState = PlayerState.Dead;
             PlayerAnimator.SetTrigger("Die");
             GetComponent<PlayerMovementController>().enabled = false;
-            GetComponent<BombController>().enabled = false;
         }
 
         public void SwitchPlayerModel(GameObject playerModel)

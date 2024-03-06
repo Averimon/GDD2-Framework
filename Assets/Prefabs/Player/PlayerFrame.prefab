@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 2549029764180756960}
   - component: {fileID: 575763134141330264}
   - component: {fileID: 5446554196516040374}
-  - component: {fileID: 7500732986700632333}
   m_Layer: 8
   m_Name: PlayerFrame
   m_TagString: Player
@@ -128,6 +127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialMoveSpeed: 0
   currentMoveSpeed: 0
+  slidingFactor: 0
+  directionChangeSpeed: 0
 --- !u!114 &575763134141330264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,7 +144,7 @@ MonoBehaviour:
   OnPlayerStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  PlayerNumber: -1
+  PlayerID: -1
   explosionMarksAffectingPlayer: []
 --- !u!114 &5446554196516040374
 MonoBehaviour:
@@ -157,17 +158,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8b2edc6621ea24d8a3bcf4543c25da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7500732986700632333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2897271952481793641}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a742445b03ecee439f846ac9f0d1e65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bombPrefab: {fileID: 0}
-  bombRechargeTime: 0

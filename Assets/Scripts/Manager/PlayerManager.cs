@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 
 using Framework.Player;
-using Framework.Bomb;
 
 namespace Framework.Manager
 {
@@ -79,7 +78,6 @@ namespace Framework.Manager
                 player.transform.position = spawnPoint;
                 
                 player.GetComponent<PlayerMovementController>().enabled = true;
-                player.GetComponent<BombController>().enabled = true;
 
                 player.PlayerAnimator.SetBool("IsInGame", true);
             }

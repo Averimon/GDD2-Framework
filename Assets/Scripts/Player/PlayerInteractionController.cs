@@ -5,6 +5,31 @@ namespace Framework.Player
 {
     public class PlayerInteractionController : MonoBehaviour
     {
+        private int _activeBombs;
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                DropBomb();
+            }
+        }
+
+        private void DropBomb()
+        {
+            int maxBombCount = GetComponent<Player>().PlayerRole.maxBombCount;
+            if (_activeBombs >= maxBombCount) return;
+
+            GameObject bombPrefab = GetComponent<Player>().PlayerRole.bombPrefab;
+            GameObject bombObj = Instantiate(bombPrefab, transform.position, Quaternion.identity);
+            Bomb.Bomb bomb = bombObj.GetComponent<Bomb.Bomb>();
+            
+            bomb.OnBombExploded.AddListener(() => _activeBombs--);
+            _activeBombs++;
+            
+            bomb.DropBomb();
+        }
+
         private void OnTriggerEnter(Collider collider)
         {
             if (collider.CompareTag("Explosion"))
@@ -64,6 +89,29 @@ namespace Framework.Player
                         GetComponent<PlayerMovementController>().directionChangeSpeed = 100.0f;
                     }
                 }
+            }
+            else if (collider.CompareTag("Bomb"))
+            {
+                SphereCollider explosionCollider = collider.GetComponent<SphereCollider>();
+                explosionCollider.isTrigger = false;
+            }
+        }
+
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            if (hit.collider.CompareTag("Bomb"))
+            {
+                Rigidbody body = hit.collider.attachedRigidbody;
+
+                if (GetComponent<Player>().PlayerID != hit.collider.GetComponent<Bomb.Bomb>().authorID) return;
+                if (body == null || body.isKinematic) return;
+
+                float bombPushForce = GetComponent<Player>().PlayerRole.bombPushForce;
+
+                Vector3 direction = hit.moveDirection.normalized;
+                direction.y = 0;
+
+                body.AddForce(direction * bombPushForce, ForceMode.Impulse);
             }
         }
     }

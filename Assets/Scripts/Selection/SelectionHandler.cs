@@ -28,7 +28,6 @@ namespace Framework.Selection
         private bool AllPlayersConfirmed => _players.All(p => p.PlayerRole);
 
         private PlayerRole _selectedRole;
-        private bool _registered;
 
         private void Start()
         {
@@ -37,19 +36,13 @@ namespace Framework.Selection
 
             _selectedRole = _availablePlayerRoles[0];
             _bombNameText.text = _selectedRole.name;
-            _registered = false;
 
             _startButton.onClick.AddListener(StartGame);
             UpdateStartButtonUI();
-        }
 
-        private void Update() {
-            if (!_registered && Input.anyKeyDown)
-            {
-                Register();
-            }
+            Register();
         }
-
+        
         private void LoadPlayerRolesFromResources()
         {
             _availablePlayerRoles.Clear();
@@ -63,13 +56,9 @@ namespace Framework.Selection
 
         public void Register()
         {
-            if (_registered) return;
-
             _players.Add(_player);
             _player.PlayerNumber = _players.Count - 1;
             _player.SwitchPlayerModel(_selectedRole.playerModel);
-
-            _registered = true;
 
             UpdateStartButtonUI();
         }

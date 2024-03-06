@@ -8,7 +8,7 @@ namespace Framework.Player
     {
         public PlayerStateEvent OnPlayerStateChanged;
 
-        public int PlayerNumber = -1;
+        public int PlayerID = -1;
         public List<ExplosionMark> explosionMarksAffectingPlayer = new List<ExplosionMark>();
 
         public Animator PlayerAnimator { get; private set; }

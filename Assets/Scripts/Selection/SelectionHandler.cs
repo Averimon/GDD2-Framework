@@ -57,7 +57,7 @@ namespace Framework.Selection
         public void Register()
         {
             _players.Add(_player);
-            _player.PlayerNumber = _players.Count - 1;
+            _player.PlayerID = _players.Count - 1;
             _player.SwitchPlayerModel(_selectedRole.playerModel);
 
             UpdateStartButtonUI();
@@ -65,7 +65,7 @@ namespace Framework.Selection
 
         public void TogglePlayerConfirmation(Player.Player player)
         {
-            int playerNumber = player.PlayerNumber;
+            int playerNumber = player.PlayerID;
 
             if (IsPlayerConfirmed(playerNumber))
             {

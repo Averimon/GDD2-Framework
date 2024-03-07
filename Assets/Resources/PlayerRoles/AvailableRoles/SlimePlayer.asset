@@ -15,4 +15,5 @@ MonoBehaviour:
   playerModel: {fileID: 40552486449022211, guid: c53781721aa0818439b3472da2337d95, type: 3}
   moveSpeed: 3
   bombPrefab: {fileID: 7267320847814477804, guid: 960987531f23c4b4d89d6c5c9f2872ba, type: 3}
-  bombRechargeTime: 2
+  maxBombCount: 2
+  bombPushForce: 3

@@ -14,7 +14,6 @@ namespace Framework.Bomb
 
         public void DropBomb()
         {
-            Debug.Log(fuseTimer);
             Invoke(nameof(Explode), fuseTimer);
         }
 

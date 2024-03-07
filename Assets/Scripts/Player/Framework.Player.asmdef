@@ -2,7 +2,8 @@
     "name": "Framework.Player",
     "rootNamespace": "",
     "references": [
-        "GUID:4f57fa22cbe46c943aa90aeb062b08ed"
+        "GUID:4f57fa22cbe46c943aa90aeb062b08ed",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

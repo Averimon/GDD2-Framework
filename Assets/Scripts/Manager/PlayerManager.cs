@@ -9,9 +9,10 @@ namespace Framework.Manager
     public class PlayerManager : MonoBehaviour
     {
         public static PlayerManager Instance { get; private set; }
+        
+        public PlayerCountEvent OnPlayerCountChanged;
 
         public List<Player.Player> Players { get; private set; } = new List<Player.Player>();
-        public PlayerCountEvent OnPlayerCountChanged;
 
         // This is a dictionary of spawn points and whether they are occupied or not
         private Dictionary<Transform, bool> _spawnPointsOccupancy = new Dictionary<Transform, bool>();
@@ -33,6 +34,7 @@ namespace Framework.Manager
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
+                Players.AddRange(FindObjectsOfType<Player.Player>());
             }
             else
             {
@@ -40,17 +42,14 @@ namespace Framework.Manager
             }
         }
         
-        public void InitalizePlayers(List<Player.Player> players)
+        public void InitalizePlayers()
         {
-            Players.Clear();
-
-            foreach (Player.Player player in players)
+            foreach (Player.Player player in Players)
             {
                 player.OnPlayerStateChanged.AddListener(OnPlayerStateChanged);
                 player.transform.SetParent(null);
                 DontDestroyOnLoad(player.gameObject);
 
-                Players.Add(player);
                 AlivePlayerCount++;
             }
         }
@@ -78,6 +77,7 @@ namespace Framework.Manager
                 player.transform.position = spawnPoint;
                 
                 player.GetComponent<PlayerMovementController>().enabled = true;
+                player.GetComponent<PlayerInteractionController>().enabled = true;
 
                 player.PlayerAnimator.SetBool("IsInGame", true);
             }

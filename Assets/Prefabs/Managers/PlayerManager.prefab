@@ -47,3 +47,8 @@ MonoBehaviour:
   OnPlayerCountChanged:
     m_PersistentCalls:
       m_Calls: []
+  _players:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

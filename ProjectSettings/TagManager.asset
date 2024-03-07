@@ -11,6 +11,7 @@ TagManager:
   - Air
   - ExplosionMark
   - CinemachineTarget
+  - Bomb
   layers:
   - Default
   - TransparentFX

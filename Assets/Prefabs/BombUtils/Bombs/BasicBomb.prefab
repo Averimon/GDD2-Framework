@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 228a92f36faf63242984909cc65efc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  authorID: 0
+  authorID: 2
   fuseTimer: 2
   _explosionPrefab: {fileID: 4645326692290881460, guid: 335ef40f59600704fba01776c03d411a, type: 3}
   OnBombExploded:
@@ -151,7 +151,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &7278703068887020518
 GameObject:

@@ -1,17 +1,47 @@
 using UnityEngine;
 using Framework.Bomb;
+using UnityEngine.SceneManagement;
 
 namespace Framework.Player
 {
     public class PlayerInteractionController : MonoBehaviour
     {
+        private bool wasPressedLastFrame = false;
         private int _activeBombs;
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetButtonDown("Action P" + (GetComponent<Player>().PlayerID + 1)))
             {
-                DropBomb();
+                if (SceneManager.GetActiveScene().name == "GameScene")
+                {
+                    DropBomb();
+                }
+                else if (SceneManager.GetActiveScene().name == "SelectionScene")
+                {
+                    GetComponentInParent<PlayerSelection>().TogglePlayerConfirmation();
+                }
+            }
+            else if (SceneManager.GetActiveScene().name == "SelectionScene")
+            {
+                float horizontalInput = Input.GetAxisRaw("Horizontal P" + (GetComponent<Player>().PlayerID + 1));
+                // Check if the axis just transitioned from not pressed to pressed
+                if (!wasPressedLastFrame && horizontalInput != 0)
+                {
+                    if (horizontalInput > 0)
+                    {
+                        GetComponentInParent<PlayerSelection>().GoRight();
+                    }
+                    else
+                    {
+                        GetComponentInParent<PlayerSelection>().GoLeft();
+                    }
+                    wasPressedLastFrame = true;
+                }
+                else if (horizontalInput == 0)
+                {
+                    wasPressedLastFrame = false;
+                }
             }
         }
 

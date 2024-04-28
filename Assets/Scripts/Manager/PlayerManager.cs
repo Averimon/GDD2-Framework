@@ -75,6 +75,8 @@ namespace Framework.Manager
                 
                 player.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
                 player.transform.position = spawnPoint;
+                // Adjust the player model's position
+                player.transform.GetChild(0).localPosition = new Vector3(0, -1.4f, 0);
                 
                 player.GetComponent<PlayerMovementController>().enabled = true;
                 player.GetComponent<PlayerInteractionController>().enabled = true;

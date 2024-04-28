@@ -44,7 +44,6 @@ namespace Framework.Player
             PlayerMovementController playerMovementController = GetComponent<PlayerMovementController>();
 
             playerMovementController.initialMoveSpeed = _playerRole.moveSpeed;
-            _playerRole.bombPrefab.GetComponent<Bomb.Bomb>().authorID = PlayerID;
             PlayerAnimator = GetComponentInChildren<Animator>();
         }
 
@@ -70,7 +69,11 @@ namespace Framework.Player
                 GetComponent<MeshRenderer>().enabled = false;
             }
 
-            Instantiate(playerModel, transform);
+            // Spawn the new player model
+            GameObject newPlayerModel = Instantiate(playerModel, transform);
+
+            // Adjust the player model's position
+            newPlayerModel.transform.localPosition = new Vector3(0, -3, 0);
         }
     }
 }

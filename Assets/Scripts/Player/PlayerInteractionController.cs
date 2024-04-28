@@ -51,8 +51,10 @@ namespace Framework.Player
             if (_activeBombs >= maxBombCount) return;
 
             GameObject bombPrefab = GetComponent<Player>().PlayerRole.bombPrefab;
-            GameObject bombObj = Instantiate(bombPrefab, transform.position, Quaternion.identity);
+            Vector3 bombPosition = new Vector3(transform.position.x, 0.25f, transform.position.z);
+            GameObject bombObj = Instantiate(bombPrefab, bombPosition, Quaternion.identity);
             Bomb.Bomb bomb = bombObj.GetComponent<Bomb.Bomb>();
+            bomb.authorID = GetComponent<Player>().PlayerID;
             
             bomb.OnBombExploded.AddListener(() => _activeBombs--);
             _activeBombs++;

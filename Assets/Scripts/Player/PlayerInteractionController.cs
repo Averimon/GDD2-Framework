@@ -11,7 +11,7 @@ namespace Framework.Player
 
         private void Update()
         {
-            if (Input.GetButtonDown("Action P" + (GetComponent<Player>().PlayerID + 1)))
+            if (Input.GetButtonDown("Action P" + GetComponent<Player>().PlayerID))
             {
                 if (SceneManager.GetActiveScene().name == "GameScene")
                 {
@@ -24,7 +24,7 @@ namespace Framework.Player
             }
             else if (SceneManager.GetActiveScene().name == "SelectionScene")
             {
-                float horizontalInput = Input.GetAxisRaw("Horizontal P" + (GetComponent<Player>().PlayerID + 1));
+                float horizontalInput = Input.GetAxisRaw("Horizontal P" + GetComponent<Player>().PlayerID);
                 // Check if the axis just transitioned from not pressed to pressed
                 if (!wasPressedLastFrame && horizontalInput != 0)
                 {

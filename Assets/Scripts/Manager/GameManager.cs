@@ -40,17 +40,30 @@ namespace Framework.Manager
             PlayerManager.Instance.InitalizeSpawnPoints();
             PlayerManager.Instance.SpawnPlayers();
             GameState = GameState.Running;
+            OnGameStateChanged.AddListener(HandleGameStateChanged);
         }
 
         private void OnPlayerCountChanged(int playerCount)
         {
-            if (playerCount == 1)
+            if (playerCount <= 1)
             {
                 GameState = GameState.GameOver;
             }
-            else if (playerCount == 0)
+        }
+
+        private void HandleGameStateChanged(GameState gameState)
+        {
+            if (gameState == GameState.GameOver)
             {
-                Debug.LogError("All players seem to be dead. This should never happen!");
+                foreach (Player.Player player in PlayerManager.Instance.Players)
+                {
+                    if (player.PlayerState == Player.PlayerState.Dead)
+                    {
+                        Destroy(player.gameObject);
+                    }
+                }
+                
+                SceneManager.Instance.LoadScene("GameOver");
             }
         }
     }

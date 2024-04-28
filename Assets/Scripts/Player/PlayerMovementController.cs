@@ -25,8 +25,8 @@ namespace Framework.Player
 
         private void Update()
         {
-            _targetDirection.x = Input.GetAxisRaw("Horizontal P" + (GetComponent<Player>().PlayerID + 1));
-            _targetDirection.z = Input.GetAxisRaw("Vertical P" + (GetComponent<Player>().PlayerID + 1));
+            _targetDirection.x = Input.GetAxisRaw("Horizontal P" + GetComponent<Player>().PlayerID);
+            _targetDirection.z = Input.GetAxisRaw("Vertical P" + GetComponent<Player>().PlayerID);
             _targetDirection.Normalize();
 
             bool isMoving = _targetDirection.magnitude != 0;

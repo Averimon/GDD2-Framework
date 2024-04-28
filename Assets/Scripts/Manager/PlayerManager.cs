@@ -44,6 +44,8 @@ namespace Framework.Manager
         
         public void InitalizePlayers()
         {
+            _spawnPointsOccupancy.Clear();
+
             foreach (Player.Player player in Players)
             {
                 player.OnPlayerStateChanged.AddListener(OnPlayerStateChanged);

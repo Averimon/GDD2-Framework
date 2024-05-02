@@ -58,22 +58,13 @@ namespace Framework.Player
 
         public void SwitchPlayerModel(GameObject playerModel)
         {
-            if (transform.childCount > 0)
-            {
-                // If the player model has already been swapped, destroy the old model
-                Destroy(transform.GetChild(0).gameObject);
-            }
-            else
-            {
-                // First time swapping model, disable the default model
-                GetComponent<MeshRenderer>().enabled = false;
-            }
+            // Destroy current player avatar selection
+            Transform avatar = transform.GetChild(0);
+            foreach (Transform avatarContent in avatar.transform)
+                Destroy(avatarContent.gameObject);
 
-            // Spawn the new player model
-            GameObject newPlayerModel = Instantiate(playerModel, transform);
-
-            // Adjust the player model's position
-            newPlayerModel.transform.localPosition = new Vector3(0, -3, 0);
+            // Spawn the new player avatar model
+            GameObject newPlayerModel = Instantiate(playerModel, avatar);
         }
     }
 }

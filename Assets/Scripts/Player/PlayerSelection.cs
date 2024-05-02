@@ -8,25 +8,20 @@ namespace Framework.Player
 {
     public class PlayerSelection : MonoBehaviour
     {
+        [Header("Player Selection Settings")]
         [SerializeField] private int _playerID;
-        private List<PlayerRole> _availablePlayerRoles = new List<PlayerRole>();
-        private Player _player;
-        private Button _selectButton;
-        private Button _goLeftButton;
-        private Button _goRightButton;
-        private TextMeshProUGUI _currRoleText;
+        [SerializeField] private Player _player;
+
+        [Header("UI References")]
+        [SerializeField] private Button _selectButton;
+        [SerializeField] private Button _goLeftButton;
+        [SerializeField] private Button _goRightButton;
+        [SerializeField] private TMP_Text _currRoleText;
+
+        private readonly List<PlayerRole> _availablePlayerRoles = new();
         private PlayerRole _selectedRole;
 
-        public UnityEvent OnPlayerConfirmed = new UnityEvent();
-
-        private void Awake()
-        {
-            _player = GetComponentInChildren<Player>();
-            _selectButton = transform.Find("SelectButton").GetComponent<Button>();
-            _goLeftButton = transform.Find("GoLeftButton").GetComponent<Button>();
-            _goRightButton = transform.Find("GoRightButton").GetComponent<Button>();
-            _currRoleText = transform.Find("CurrentRoleText").GetComponent<TextMeshProUGUI>();
-        }
+        public UnityEvent OnPlayerConfirmed = new();
 
         private void Start()
         {

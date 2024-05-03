@@ -14,6 +14,7 @@ namespace Framework.Manager
             {
                 Player.Player player = FindObjectOfType<Player.Player>();
                 _winnerText.text = $"Congratulations Player #{player.PlayerID}.\nYou won!";
+                _winnerText.rectTransform.localPosition = new Vector3(0, 330, 0);
                 player.transform.position = Vector3.zero;
                 player.transform.rotation = Quaternion.Euler(0, 180, 0);
                 player.transform.localScale = Vector3.one;
@@ -22,6 +23,7 @@ namespace Framework.Manager
             else
             {
                 _winnerText.text = "Now, that's awkward...\nNo one won.\n\nHere's a consolation prize:\nA free ticket to the main menu!";
+                _winnerText.rectTransform.localPosition = new Vector3(0, 130, 0);
             }
         }
 

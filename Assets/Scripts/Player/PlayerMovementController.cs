@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Framework.Player
 {
+    [RequireComponent(typeof(Player))]
     public class PlayerMovementController : MonoBehaviour
     {
         public float initialMoveSpeed;
@@ -9,12 +10,14 @@ namespace Framework.Player
         public float slidingFactor;
         public float directionChangeSpeed;
 
+        private Player _player;
         private CharacterController _controller;
         private Vector3 _targetDirection;
         private Vector3 _currentVelocity;
 
-        void Start()
+        private void Start()
         {
+            _player = GetComponent<Player>();
             _controller = GetComponent<CharacterController>();
 
             currentMoveSpeed = initialMoveSpeed;
@@ -25,12 +28,12 @@ namespace Framework.Player
 
         private void Update()
         {
-            _targetDirection.x = Input.GetAxisRaw("Horizontal P" + GetComponent<Player>().PlayerID);
-            _targetDirection.z = Input.GetAxisRaw("Vertical P" + GetComponent<Player>().PlayerID);
+            _targetDirection.x = Input.GetAxisRaw($"Horizontal P{_player.PlayerID}");
+            _targetDirection.z = Input.GetAxisRaw($"Vertical P{_player.PlayerID}");
             _targetDirection.Normalize();
 
             bool isMoving = _targetDirection.magnitude != 0;
-            GetComponent<Player>().PlayerAnimator.SetBool("IsMoving", isMoving);
+            _player.PlayerAnimator.SetBool("IsMoving", isMoving);
         }
         
         private void FixedUpdate()

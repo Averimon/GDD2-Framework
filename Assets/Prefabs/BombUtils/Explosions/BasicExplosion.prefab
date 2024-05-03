@@ -4939,6 +4939,9 @@ MonoBehaviour:
   ExplosionMarkPrefab: {fileID: 0}
   _explosionRadius: 1
   _ignoresWall: 0
+  _colliderLayerMask:
+    serializedVersion: 2
+    m_Bits: 1280
 --- !u!135 &1969322895906483925
 SphereCollider:
   m_ObjectHideFlags: 0

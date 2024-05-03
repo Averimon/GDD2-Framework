@@ -18,6 +18,7 @@ namespace Framework.Player
         [SerializeField] private Button _goRightButton;
         [SerializeField] private TMP_Text _currRoleText;
 
+        private bool _wasPressedLastFrame;
         private readonly List<PlayerRole> _availablePlayerRoles = new();
         private PlayerRole _selectedRole;
 
@@ -32,7 +33,34 @@ namespace Framework.Player
             _player.SwitchPlayerModel(_selectedRole.playerModel);
             _player.PlayerID = _playerID;
         }
-        
+
+        private void Update()
+        {
+            if (Input.GetButtonDown($"Action P{_player.PlayerID}"))
+            {
+                TogglePlayerConfirmation();
+            }
+
+            float horizontalInput = Input.GetAxisRaw($"Horizontal P{_player.PlayerID}");
+            // Check if the axis just transitioned from not pressed to pressed
+            if (!_wasPressedLastFrame && horizontalInput != 0)
+            {
+                if (horizontalInput > 0)
+                {
+                    GoRight();
+                }
+                else
+                {
+                    GoLeft();
+                }
+                _wasPressedLastFrame = true;
+            }
+            else if (horizontalInput == 0)
+            {
+                _wasPressedLastFrame = false;
+            }
+        }
+
         private void LoadPlayerRolesFromResources()
         {
             _availablePlayerRoles.Clear();

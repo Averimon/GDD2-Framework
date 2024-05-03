@@ -9,11 +9,11 @@ namespace Framework.Bomb
 
         [SerializeField] private float _explosionRadius;
         [SerializeField] private bool _ignoresWall;
-        
+        [SerializeField] private LayerMask _colliderLayerMask;
+
         private float _explosionLifetime;
         private int _playerHits;
-        // Layer mask for the explosion collider (only objects on Layer 8 "Reactive" and Layer 10 "Air" are hit by the explosion)
-        private readonly int _colliderLayerMask = 1 << 8 | 1 << 10;
+        
         private Transform _airGrid;
 
         private void Awake()
@@ -159,20 +159,6 @@ namespace Framework.Bomb
                     explosionMark.ToBeDestroyed(randomLifetime);
                 }
             }
-
-            /*
-            foreach (Transform hitPlayer in hitPlayers)
-            {
-                if (_explosionMark.sticksToPlayers)
-                {
-                    float randomLifetime = Random.Range(_explosionMark.lifetime - _explosionMark.lifetimeEpsilon, _explosionMark.lifetime + _explosionMark.lifetimeEpsilon);
-
-                    GameObject mark = Instantiate(_explosionMarkPrefab, hitPlayer.position, Quaternion.identity);
-                    mark.transform.SetParent(hitPlayer);
-                    Destroy(mark, randomLifetime);
-                }
-            }
-            */
         }
     }
 }

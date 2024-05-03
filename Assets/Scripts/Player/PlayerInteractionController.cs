@@ -1,60 +1,39 @@
 using UnityEngine;
 using Framework.Bomb;
-using UnityEngine.SceneManagement;
 
 namespace Framework.Player
 {
+    [RequireComponent(typeof(Player), typeof(PlayerMovementController))]
     public class PlayerInteractionController : MonoBehaviour
     {
-        private bool wasPressedLastFrame = false;
+        private Player _player;
+        private PlayerMovementController _playerMovement;
         private int _activeBombs;
+
+        private void Start()
+        {
+            _player = GetComponent<Player>();
+            _playerMovement = GetComponent<PlayerMovementController>();
+        }
 
         private void Update()
         {
-            if (Input.GetButtonDown("Action P" + GetComponent<Player>().PlayerID))
+            if (Input.GetButtonDown($"Action P{_player.PlayerID}"))
             {
-                if (SceneManager.GetActiveScene().name == "GameScene")
-                {
-                    DropBomb();
-                }
-                else if (SceneManager.GetActiveScene().name == "SelectionScene")
-                {
-                    GetComponentInParent<PlayerSelection>().TogglePlayerConfirmation();
-                }
-            }
-            else if (SceneManager.GetActiveScene().name == "SelectionScene")
-            {
-                float horizontalInput = Input.GetAxisRaw("Horizontal P" + GetComponent<Player>().PlayerID);
-                // Check if the axis just transitioned from not pressed to pressed
-                if (!wasPressedLastFrame && horizontalInput != 0)
-                {
-                    if (horizontalInput > 0)
-                    {
-                        GetComponentInParent<PlayerSelection>().GoRight();
-                    }
-                    else
-                    {
-                        GetComponentInParent<PlayerSelection>().GoLeft();
-                    }
-                    wasPressedLastFrame = true;
-                }
-                else if (horizontalInput == 0)
-                {
-                    wasPressedLastFrame = false;
-                }
+                DropBomb();
             }
         }
 
         private void DropBomb()
         {
-            int maxBombCount = GetComponent<Player>().PlayerRole.maxBombCount;
+            int maxBombCount = _player.PlayerRole.maxBombCount;
             if (_activeBombs >= maxBombCount) return;
 
-            GameObject bombPrefab = GetComponent<Player>().PlayerRole.bombPrefab;
+            GameObject bombPrefab = _player.PlayerRole.bombPrefab;
             Vector3 bombPosition = new Vector3(transform.position.x, 0.25f, transform.position.z);
             GameObject bombObj = Instantiate(bombPrefab, bombPosition, Quaternion.identity);
             Bomb.Bomb bomb = bombObj.GetComponent<Bomb.Bomb>();
-            bomb.authorID = GetComponent<Player>().PlayerID;
+            bomb.authorID = _player.PlayerID;
             
             bomb.OnBombExploded.AddListener(() => _activeBombs--);
             _activeBombs++;
@@ -71,7 +50,7 @@ namespace Framework.Player
 
                 if (!isCovered || !hitInfo.collider.CompareTag("Indestructible"))
                 {
-                    GetComponent<Player>().Die();
+                    _player.Die();
 
                     Vector3 deathLookRotation = collider.transform.position - transform.position;
 
@@ -81,20 +60,19 @@ namespace Framework.Player
             }
             else if (collider.CompareTag("ExplosionMark"))
             {
-                if (GetComponent<Player>().PlayerID == collider.GetComponent<ExplosionMark>().authorID) return;
-
                 ExplosionMark explosionMark = collider.GetComponent<ExplosionMark>();
-                GetComponent<Player>().explosionMarksAffectingPlayer.Add(explosionMark);
-                PlayerMovementController playerMovementController = GetComponent<PlayerMovementController>();
+                if (_player.PlayerID == explosionMark.authorID) return;
+                
+                _player.explosionMarksAffectingPlayer.Add(explosionMark);
 
                 if (explosionMark.isSticky)
                 {
-                    playerMovementController.currentMoveSpeed = playerMovementController.initialMoveSpeed * 0.5f;
+                    _playerMovement.currentMoveSpeed = _playerMovement.initialMoveSpeed * 0.5f;
                 }
                 if (explosionMark.isSlippery)
                 {
-                    playerMovementController.slidingFactor = 0.97f;
-                    playerMovementController.directionChangeSpeed = 5f;
+                    _playerMovement.slidingFactor = 0.97f;
+                    _playerMovement.directionChangeSpeed = 5f;
                 }
             }
         }
@@ -104,28 +82,27 @@ namespace Framework.Player
             if (collider.CompareTag("ExplosionMark"))
             {
                 ExplosionMark explosionMark = collider.GetComponent<ExplosionMark>();
-                GetComponent<Player>().explosionMarksAffectingPlayer.Remove(explosionMark);
+                _player.explosionMarksAffectingPlayer.Remove(explosionMark);
 
                 if (explosionMark.isSticky)
                 {
-                    if (GetComponent<Player>().explosionMarksAffectingPlayer.Find(mark => mark.isSticky) == null)
+                    if (_player.explosionMarksAffectingPlayer.Find(mark => mark.isSticky) == null)
                     {
-                        GetComponent<PlayerMovementController>().currentMoveSpeed = GetComponent<PlayerMovementController>().initialMoveSpeed;
+                        _playerMovement.currentMoveSpeed = _playerMovement.initialMoveSpeed;
                     }
                 }
                 if (explosionMark.isSlippery)
                 {
-                    if (GetComponent<Player>().explosionMarksAffectingPlayer.Find(mark => mark.isSlippery) == null)
+                    if (_player.explosionMarksAffectingPlayer.Find(mark => mark.isSlippery) == null)
                     {
-                        GetComponent<PlayerMovementController>().slidingFactor = 0.0f;
-                        GetComponent<PlayerMovementController>().directionChangeSpeed = 100.0f;
+                        _playerMovement.slidingFactor = 0.0f;
+                        _playerMovement.directionChangeSpeed = 100.0f;
                     }
                 }
             }
             else if (collider.CompareTag("Bomb"))
             {
-                SphereCollider explosionCollider = collider.GetComponent<SphereCollider>();
-                explosionCollider.isTrigger = false;
+                collider.isTrigger = false;
             }
         }
 
@@ -135,10 +112,10 @@ namespace Framework.Player
             {
                 Rigidbody body = hit.collider.attachedRigidbody;
 
-                if (GetComponent<Player>().PlayerID != hit.collider.GetComponent<Bomb.Bomb>().authorID) return;
+                if (_player.PlayerID != hit.collider.GetComponent<Bomb.Bomb>().authorID) return;
                 if (body == null || body.isKinematic) return;
 
-                float bombPushForce = GetComponent<Player>().PlayerRole.bombPushForce;
+                float bombPushForce = _player.PlayerRole.bombPushForce;
 
                 Vector3 direction = hit.moveDirection.normalized;
                 direction.y = 0;

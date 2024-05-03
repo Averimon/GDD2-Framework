@@ -75,29 +75,22 @@ namespace Framework.Manager
                 Vector3 spawnPoint = GetRandomSpawnPoint();
                 _spawnPointsOccupancy[_spawnPointsOccupancy.First(x => x.Key.position == spawnPoint).Key] = true;
                 
-                player.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
                 player.transform.position = spawnPoint;
-                // Adjust the player model's position
-                player.transform.GetChild(0).localPosition = new Vector3(0, -1.4f, 0);
-                
                 player.GetComponent<PlayerMovementController>().enabled = true;
                 player.GetComponent<PlayerInteractionController>().enabled = true;
 
                 player.PlayerAnimator.SetBool("IsInGame", true);
+
+                // Disable Selection Cam
+                player.GetComponentInChildren<Camera>().enabled = false;
+
             }
         }
 
         private Vector3 GetRandomSpawnPoint()
         {
-            List<Transform> availableSpawnPoints = new List<Transform>();
-
-            foreach (KeyValuePair<Transform, bool> spawnPoint in _spawnPointsOccupancy)
-            {
-                if (!spawnPoint.Value)
-                {
-                    availableSpawnPoints.Add(spawnPoint.Key);
-                }
-            }
+            List<Transform> availableSpawnPoints = (from spawnPoint in _spawnPointsOccupancy
+                where !spawnPoint.Value select spawnPoint.Key).ToList();
 
             int randomIndex = Random.Range(0, availableSpawnPoints.Count);
             return availableSpawnPoints[randomIndex].position;

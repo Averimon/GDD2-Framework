@@ -64,7 +64,7 @@ namespace Framework.Player
                 Destroy(avatarContent.gameObject);
 
             // Spawn the new player avatar model
-            GameObject newPlayerModel = Instantiate(playerModel, avatar);
+            Instantiate(playerModel, avatar);
         }
     }
 }

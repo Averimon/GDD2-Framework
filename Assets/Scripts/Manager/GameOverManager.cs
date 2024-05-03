@@ -8,7 +8,7 @@ namespace Framework.Manager
     {
         [SerializeField] private TextMeshProUGUI _winnerText;
 
-        void Start()
+        private void Start()
         {
             if (PlayerManager.Instance.AlivePlayerCount == 1)
             {

@@ -1,0 +1,5 @@
+Bomb Explosion: Youtube Tutorial (https://www.youtube.com/watch?v=dOnQY0t3TBM)
+Tiles: Meshtint Free Tile Map Mega Toon Series (https://assetstore.unity.com/packages/3d/environments/meshtint-free-tile-map-mega-toon-series-153619#content)
+Basic Player Model: RPG Tiny Hero Duo PBR Polyart (https://assetstore.unity.com/packages/3d/characters/humanoids/rpg-tiny-hero-duo-pbr-polyart-225148)
+
+Disclaimer: The video explaining more about the bomb explosion has been taken down. Also the Tiles package was removed from the Unity Asset store.

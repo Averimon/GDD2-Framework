@@ -18,6 +18,8 @@ namespace Framework.Multiplayer
         public override void OnStartLocalPlayer()
         {
             _player = GetComponent<Player.Player>();
+            _player.PlayerAnimator.SetBool("IsInGame", true);
+
             _controller = GetComponent<CharacterController>();
             _controller.enabled = true;
 
@@ -35,8 +37,6 @@ namespace Framework.Multiplayer
             _targetDirection.x = Input.GetAxisRaw($"Horizontal P1");
             _targetDirection.z = Input.GetAxisRaw($"Vertical P1");
             _targetDirection.Normalize();
-
-            Debug.Log($"H: {_targetDirection.x}, V: {_targetDirection.z}");
 
             bool isMoving = _targetDirection.magnitude != 0;
             _player.PlayerAnimator.SetBool("IsMoving", isMoving);
@@ -65,7 +65,6 @@ namespace Framework.Multiplayer
 
             if (_currentVelocity.magnitude != 0)
             {
-                Debug.Log($"move: {_currentVelocity}");
                 _controller.Move(_currentVelocity * Time.fixedDeltaTime);
             }
 

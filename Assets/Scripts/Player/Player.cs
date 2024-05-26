@@ -39,6 +39,11 @@ namespace Framework.Player
             }
         }
         
+        private void Awake()
+        {
+            PlayerAnimator = GetComponentInChildren<Animator>();
+        }
+
         private void ApplyRole()
         {
             PlayerMovementController playerMovementController = GetComponent<PlayerMovementController>();

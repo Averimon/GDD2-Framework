@@ -233,9 +233,9 @@ MonoBehaviour:
   OnPlayerStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  PlayerID: -1
+  PlayerID: 1
   explosionMarksAffectingPlayer: []
-  _playerRole: {fileID: 11400000, guid: f9f5071b738dce24abd61c4a717b84ac, type: 2}
+  _playerRole: {fileID: 11400000, guid: 0d37d65916f888c4989ab24ee5717491, type: 2}
 --- !u!114 &-8453248125499305817
 MonoBehaviour:
   m_ObjectHideFlags: 0

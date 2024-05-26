@@ -6,12 +6,19 @@ using Framework.Bomb;
 namespace Framework.Multiplayer
 {
     [RequireComponent(typeof(Player.Player), typeof(IPlayerMovement))]
-    public class NetworkPlayerInteractionController : NetworkBehaviour
+    public class NetworkPlayerInteractionController : NetworkBehaviour, IPlayerInteraction
     {
         private Player.Player _player;
         private IPlayerMovement _playerMovement;
         private int _activeBombs;
-        public override void OnStartLocalPlayer()
+
+        public bool Enabled
+        {
+            get => enabled;
+            set => enabled = value;
+        }
+
+        public void Start()
         {
             _player = GetComponent<Player.Player>();
             _playerMovement = GetComponent<IPlayerMovement>();
@@ -22,27 +29,29 @@ namespace Framework.Multiplayer
             if (!isLocalPlayer || _player == null)
                 return;
 
-            if (Input.GetButtonDown($"Action P{_player.PlayerID}"))
+            if (Input.GetButtonDown($"Action P1"))
             {
-                DropBomb();
+                CmdDropBomb();
             }
         }
 
-        private void DropBomb()
+        [Command]
+        private void CmdDropBomb()
         {
             int maxBombCount = _player.PlayerRole.maxBombCount;
             if (_activeBombs >= maxBombCount) return;
 
-            GameObject bombPrefab = _player.PlayerRole.bombPrefab;
-            Vector3 bombPosition = new Vector3(transform.position.x, 0.25f, transform.position.z);
-            GameObject bombObj = Instantiate(bombPrefab, bombPosition, Quaternion.identity);
-            Bomb.Bomb bomb = bombObj.GetComponent<Bomb.Bomb>();
+            var bombPrefab = _player.PlayerRole.bombPrefab;
+            var bombPosition = new Vector3(transform.position.x, 0.25f, transform.position.z);
+            var bombObj = Instantiate(bombPrefab, bombPosition, Quaternion.identity);
+
+            NetworkServer.Spawn(bombObj, connectionToClient);
+
+            var bomb = bombObj.GetComponent<NetworkBomb>();
             bomb.authorID = _player.PlayerID;
 
             bomb.OnBombExploded.AddListener(() => _activeBombs--);
             _activeBombs++;
-
-            bomb.DropBomb();
         }
 
         private void OnTriggerEnter(Collider collider)
@@ -55,6 +64,8 @@ namespace Framework.Multiplayer
                 if (!isCovered || !hitInfo.collider.CompareTag("Indestructible"))
                 {
                     _player.Die();
+                    if (TryGetComponent<NetworkAnimator>(out var animator))
+                        animator.SetTrigger("Die");
 
                     Vector3 deathLookRotation = collider.transform.position - transform.position;
 
@@ -116,7 +127,7 @@ namespace Framework.Multiplayer
             {
                 Rigidbody body = hit.collider.attachedRigidbody;
 
-                if (_player.PlayerID != hit.collider.GetComponent<Bomb.Bomb>().authorID) return;
+                if (_player.PlayerID != hit.collider.GetComponent<NetworkBomb>().authorID) return;
                 if (body == null || body.isKinematic) return;
 
                 float bombPushForce = _player.PlayerRole.bombPushForce;

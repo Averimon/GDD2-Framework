@@ -56,7 +56,7 @@ namespace Framework.Player
         {
             PlayerState = PlayerState.Dead;
             PlayerAnimator.SetTrigger("Die");
-            GetComponent<PlayerInteractionController>().enabled = false;
+            GetComponent<IPlayerInteraction>().Enabled = false;
             GetComponent<CharacterController>().enabled = false;
         }
 

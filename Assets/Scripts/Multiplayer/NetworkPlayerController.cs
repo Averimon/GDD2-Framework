@@ -20,7 +20,7 @@ namespace Framework.Multiplayer
         public override void OnStartLocalPlayer()
         {
             _player = GetComponent<Player.Player>();
-            _player.PlayerID = 1;
+            _player.PlayerID = (int)netId;
             _player.PlayerAnimator.SetBool("IsInGame", true);
             PlayerManager.Instance.AddPlayer(_player);
 
@@ -38,8 +38,8 @@ namespace Framework.Multiplayer
             if (!isLocalPlayer || _player == null || _controller == null || !_controller.enabled)
                 return;
 
-            _targetDirection.x = Input.GetAxisRaw($"Horizontal P{_player.PlayerID}");
-            _targetDirection.z = Input.GetAxisRaw($"Vertical P{_player.PlayerID}");
+            _targetDirection.x = Input.GetAxisRaw($"Horizontal P1");
+            _targetDirection.z = Input.GetAxisRaw($"Vertical P1");
             _targetDirection.Normalize();
 
             bool isMoving = _targetDirection.magnitude != 0;

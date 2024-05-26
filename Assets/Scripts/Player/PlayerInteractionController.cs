@@ -4,11 +4,17 @@ using Framework.Bomb;
 namespace Framework.Player
 {
     [RequireComponent(typeof(Player), typeof(IPlayerMovement))]
-    public class PlayerInteractionController : MonoBehaviour
+    public class PlayerInteractionController : MonoBehaviour, IPlayerInteraction
     {
         private Player _player;
         private IPlayerMovement _playerMovement;
         private int _activeBombs;
+
+        public bool Enabled
+        {
+            get => enabled;
+            set => enabled = value;
+        }
 
         private void Start()
         {

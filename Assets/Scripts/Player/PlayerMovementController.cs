@@ -1,9 +1,10 @@
 using UnityEngine;
+using Mirror;
 
 namespace Framework.Player
 {
     [RequireComponent(typeof(Player))]
-    public class PlayerMovementController : MonoBehaviour
+    public class PlayerMovementController : NetworkBehaviour
     {
         public float initialMoveSpeed;
         public float currentMoveSpeed;
@@ -28,8 +29,10 @@ namespace Framework.Player
 
         private void Update()
         {
-            _targetDirection.x = Input.GetAxisRaw($"Horizontal P{_player.PlayerID}");
-            _targetDirection.z = Input.GetAxisRaw($"Vertical P{_player.PlayerID}");
+            if (!isLocalPlayer) return;
+
+            _targetDirection.x = Input.GetAxisRaw("Horizontal P1");
+            _targetDirection.z = Input.GetAxisRaw("Vertical P1");
             _targetDirection.Normalize();
 
             bool isMoving = _targetDirection.magnitude != 0;
@@ -38,6 +41,8 @@ namespace Framework.Player
         
         private void FixedUpdate()
         {
+            if (!isLocalPlayer) return;
+            
             if (_targetDirection.magnitude != 0)
             {
                 Vector3 desiredVelocity = _targetDirection * currentMoveSpeed;

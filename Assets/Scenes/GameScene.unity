@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.68640065, g: 0.32687202, b: 0.19273636, a: 1}
+  m_IndirectSpecularColor: {r: 0.68640035, g: 0.32687214, b: 0.19273624, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -679,10 +679,6 @@ PrefabInstance:
     - target: {fileID: 7566038638133692305, guid: 31f16aaabe5fe1d439495814d75dbc01, type: 3}
       propertyPath: m_Name
       value: GameBoard
-      objectReference: {fileID: 0}
-    - target: {fileID: 7566038638133692305, guid: 31f16aaabe5fe1d439495814d75dbc01, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8734242002591990667, guid: 31f16aaabe5fe1d439495814d75dbc01, type: 3}
       propertyPath: m_LocalPosition.x

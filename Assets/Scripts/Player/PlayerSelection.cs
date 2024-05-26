@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
+using Mirror;
 
 namespace Framework.Player
 {
@@ -11,12 +12,14 @@ namespace Framework.Player
         [Header("Player Selection Settings")]
         [SerializeField] private int _playerID;
         [SerializeField] private Player _player;
+        [SerializeField] private NetworkIdentity _playerIdentity;
 
         [Header("UI References")]
         [SerializeField] private Button _selectButton;
         [SerializeField] private Button _goLeftButton;
         [SerializeField] private Button _goRightButton;
         [SerializeField] private TMP_Text _currRoleText;
+        [SerializeField] private RenderTexture _renderTexture;
 
         private bool _wasPressedLastFrame;
         private readonly List<PlayerRole> _availablePlayerRoles = new();
@@ -30,18 +33,18 @@ namespace Framework.Player
 
             _selectedRole = _availablePlayerRoles[0];
             _currRoleText.text = _selectedRole.name;
-            _player.SwitchPlayerModel(_selectedRole.playerModel);
-            _player.PlayerID = _playerID;
         }
 
         private void Update()
         {
-            if (Input.GetButtonDown($"Action P{_player.PlayerID}"))
+            if (!_playerIdentity || !_playerIdentity.isLocalPlayer) return;
+
+            if (Input.GetButtonDown("Action P1"))
             {
                 TogglePlayerConfirmation();
             }
 
-            float horizontalInput = Input.GetAxisRaw($"Horizontal P{_player.PlayerID}");
+            float horizontalInput = Input.GetAxisRaw("Horizontal P1");
             // Check if the axis just transitioned from not pressed to pressed
             if (!_wasPressedLastFrame && horizontalInput != 0)
             {
@@ -59,6 +62,20 @@ namespace Framework.Player
             {
                 _wasPressedLastFrame = false;
             }
+        }
+
+        public void SetPlayer(Player player)
+        {
+            _player = player;
+            _player.SwitchPlayerModel(_selectedRole.playerModel);
+            _player.PlayerID = _playerID;
+            _player.GetComponentInChildren<Camera>().targetTexture = _renderTexture;
+            _playerIdentity = _player.GetComponent<NetworkIdentity>();
+        }
+
+        public Player GetPlayer()
+        {
+            return _player;
         }
 
         private void LoadPlayerRolesFromResources()

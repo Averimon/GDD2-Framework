@@ -1,10 +1,12 @@
 using UnityEngine;
 using Framework.Bomb;
+using Mirror;
 
 namespace Framework.Player
 {
     [RequireComponent(typeof(Player), typeof(PlayerMovementController))]
-    public class PlayerInteractionController : MonoBehaviour
+    
+    public class PlayerInteractionController : NetworkBehaviour
     {
         private Player _player;
         private PlayerMovementController _playerMovement;
@@ -18,6 +20,8 @@ namespace Framework.Player
 
         private void Update()
         {
+            if (!isLocalPlayer) return;
+            
             if (Input.GetButtonDown($"Action P{_player.PlayerID}"))
             {
                 DropBomb();

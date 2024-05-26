@@ -647,12 +647,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48cbc01cb9790404d833ebfa3a11fb80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _playerID: 0
   _player: {fileID: 0}
+  _playerIdentity: {fileID: 0}
   _selectButton: {fileID: 145221664380105862}
   _goLeftButton: {fileID: 8802267044031131932}
   _goRightButton: {fileID: 8520696170191375247}
   _currRoleText: {fileID: 3272122245223405407}
+  _renderTexture: {fileID: 0}
   OnPlayerConfirmed:
     m_PersistentCalls:
       m_Calls: []

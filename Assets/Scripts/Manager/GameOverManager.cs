@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using Framework.Player;
+using Framework.Networking;
 
 namespace Framework.Manager
 {
@@ -33,6 +34,8 @@ namespace Framework.Manager
                 Destroy(FindObjectOfType<Player.Player>().gameObject);
             Destroy(PlayerManager.Instance.gameObject);
             Destroy(GameManager.Instance.gameObject);
+            NetworkManagerExtension networkManager = FindObjectOfType<NetworkManagerExtension>();
+            networkManager.StopHost();
             SceneManager.Instance.LoadScene("MainMenu");
         }
     }

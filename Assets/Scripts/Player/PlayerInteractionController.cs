@@ -7,13 +7,13 @@ namespace Framework.Player
     public class PlayerInteractionController : MonoBehaviour
     {
         private Player _player;
-        private PlayerMovementController _playerMovement;
+        private IPlayerMovement _playerMovement;
         private int _activeBombs;
 
         private void Start()
         {
             _player = GetComponent<Player>();
-            _playerMovement = GetComponent<PlayerMovementController>();
+            _playerMovement = GetComponent<IPlayerMovement>();
         }
 
         private void Update()
@@ -67,12 +67,12 @@ namespace Framework.Player
 
                 if (explosionMark.isSticky)
                 {
-                    _playerMovement.currentMoveSpeed = _playerMovement.initialMoveSpeed * 0.5f;
+                    _playerMovement.CurrentMoveSpeed = _playerMovement.InitialMoveSpeed * 0.5f;
                 }
                 if (explosionMark.isSlippery)
                 {
-                    _playerMovement.slidingFactor = 0.97f;
-                    _playerMovement.directionChangeSpeed = 5f;
+                    _playerMovement.SlidingFactor = 0.97f;
+                    _playerMovement.DirectionChangeSpeed = 5f;
                 }
             }
         }
@@ -88,15 +88,15 @@ namespace Framework.Player
                 {
                     if (_player.explosionMarksAffectingPlayer.Find(mark => mark.isSticky) == null)
                     {
-                        _playerMovement.currentMoveSpeed = _playerMovement.initialMoveSpeed;
+                        _playerMovement.CurrentMoveSpeed = _playerMovement.InitialMoveSpeed;
                     }
                 }
                 if (explosionMark.isSlippery)
                 {
                     if (_player.explosionMarksAffectingPlayer.Find(mark => mark.isSlippery) == null)
                     {
-                        _playerMovement.slidingFactor = 0.0f;
-                        _playerMovement.directionChangeSpeed = 100.0f;
+                        _playerMovement.SlidingFactor = 0.0f;
+                        _playerMovement.DirectionChangeSpeed = 100.0f;
                     }
                 }
             }

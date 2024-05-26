@@ -42,17 +42,32 @@ namespace Framework.Manager
             }
         }
         
+        public List<Player.Player> GetAlivePlayers()
+        {
+            return Players.Where(player => player.PlayerState == PlayerState.Alive).ToList();
+        }
+
+        public void AddPlayer(Player.Player player)
+        {
+            Players.Add(player);
+            InitializePlayer(player);
+        }
+
+        private void InitializePlayer(Player.Player player)
+        {
+            player.OnPlayerStateChanged.AddListener(OnPlayerStateChanged);
+            player.transform.SetParent(null);
+            _alivePlayerCount++;
+        }
+
         public void InitalizePlayers()
         {
             _spawnPointsOccupancy.Clear();
 
             foreach (Player.Player player in Players)
             {
-                player.OnPlayerStateChanged.AddListener(OnPlayerStateChanged);
-                player.transform.SetParent(null);
+                InitializePlayer(player);
                 DontDestroyOnLoad(player.gameObject);
-
-                AlivePlayerCount++;
             }
         }
 

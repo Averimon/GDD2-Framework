@@ -3,31 +3,35 @@ using UnityEngine;
 namespace Framework.Player
 {
     [RequireComponent(typeof(Player))]
-    public class PlayerMovementController : MonoBehaviour
+    public class PlayerMovementController : MonoBehaviour, IPlayerMovement
     {
-        public float initialMoveSpeed;
-        public float currentMoveSpeed;
-        public float slidingFactor;
-        public float directionChangeSpeed;
-
         private Player _player;
         private CharacterController _controller;
         private Vector3 _targetDirection;
         private Vector3 _currentVelocity;
+
+        public float InitialMoveSpeed { get; set; }
+        public float CurrentMoveSpeed { get; set; }
+        public float SlidingFactor { get; set; }
+        public float DirectionChangeSpeed { get; set; }
+
 
         private void Start()
         {
             _player = GetComponent<Player>();
             _controller = GetComponent<CharacterController>();
 
-            currentMoveSpeed = initialMoveSpeed;
-            slidingFactor = 0.0f;
-            directionChangeSpeed = 100.0f;
+            CurrentMoveSpeed = InitialMoveSpeed;
+            SlidingFactor = 0.0f;
+            DirectionChangeSpeed = 100.0f;
             _targetDirection = Vector3.zero;
         }
 
         private void Update()
         {
+            if (_player == null || _controller == null || !_controller.enabled)
+                return;
+
             _targetDirection.x = Input.GetAxisRaw($"Horizontal P{_player.PlayerID}");
             _targetDirection.z = Input.GetAxisRaw($"Vertical P{_player.PlayerID}");
             _targetDirection.Normalize();
@@ -38,16 +42,19 @@ namespace Framework.Player
         
         private void FixedUpdate()
         {
+            if (_player == null || _controller == null || !_controller.enabled)
+                return;
+
             if (_targetDirection.magnitude != 0)
             {
-                Vector3 desiredVelocity = _targetDirection * currentMoveSpeed;
-                _currentVelocity = Vector3.MoveTowards(_currentVelocity, desiredVelocity, directionChangeSpeed * Time.fixedDeltaTime);
+                Vector3 desiredVelocity = _targetDirection * CurrentMoveSpeed;
+                _currentVelocity = Vector3.MoveTowards(_currentVelocity, desiredVelocity, DirectionChangeSpeed * Time.fixedDeltaTime);
             }
             else 
             {
-                if (slidingFactor > 0.0f)
+                if (SlidingFactor > 0.0f)
                 {
-                    _currentVelocity *= slidingFactor;
+                    _currentVelocity *= SlidingFactor;
                 }
                 else
                 {

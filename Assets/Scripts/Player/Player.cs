@@ -48,7 +48,7 @@ namespace Framework.Player
         {
             PlayerMovementController playerMovementController = GetComponent<PlayerMovementController>();
 
-            playerMovementController.initialMoveSpeed = _playerRole.moveSpeed;
+            playerMovementController.InitialMoveSpeed = _playerRole.moveSpeed;
             PlayerAnimator = GetComponentInChildren<Animator>();
         }
 
@@ -56,7 +56,6 @@ namespace Framework.Player
         {
             PlayerState = PlayerState.Dead;
             PlayerAnimator.SetTrigger("Die");
-            GetComponent<PlayerMovementController>().enabled = false;
             GetComponent<PlayerInteractionController>().enabled = false;
             GetComponent<CharacterController>().enabled = false;
         }

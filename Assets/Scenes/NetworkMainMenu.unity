@@ -131,30 +131,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5107953134134371515, guid: fcdfe5b1bc8c0104a8f79faf86f82a0b, type: 3}
-      propertyPath: RoomScene
-      value: Assets/Scenes/NetworkLobby.unity
-      objectReference: {fileID: 0}
-    - target: {fileID: 5107953134134371515, guid: fcdfe5b1bc8c0104a8f79faf86f82a0b, type: 3}
-      propertyPath: onlineScene
-      value: Assets/Scenes/NetworkLobby.unity
-      objectReference: {fileID: 0}
-    - target: {fileID: 5107953134134371515, guid: fcdfe5b1bc8c0104a8f79faf86f82a0b, type: 3}
-      propertyPath: offlineScene
-      value: Assets/Scenes/NetworkMainMenu.unity
-      objectReference: {fileID: 0}
-    - target: {fileID: 5107953134134371515, guid: fcdfe5b1bc8c0104a8f79faf86f82a0b, type: 3}
-      propertyPath: playerPrefab
-      value: 
-      objectReference: {fileID: 8467829649491017919, guid: 59bb07cfa993b0841a14b7b2b4eb20f3, type: 3}
-    - target: {fileID: 5107953134134371515, guid: fcdfe5b1bc8c0104a8f79faf86f82a0b, type: 3}
-      propertyPath: GameplayScene
-      value: Assets/Scenes/GameScene.unity
-      objectReference: {fileID: 0}
-    - target: {fileID: 5107953134134371515, guid: fcdfe5b1bc8c0104a8f79faf86f82a0b, type: 3}
-      propertyPath: roomPlayerPrefab
-      value: 
-      objectReference: {fileID: 7464944256319279801, guid: 2de1b92e3ef10b642b90ceaa22d8f784, type: 3}
     - target: {fileID: 6711561732941243436, guid: fcdfe5b1bc8c0104a8f79faf86f82a0b, type: 3}
       propertyPath: m_Name
       value: RoomManager

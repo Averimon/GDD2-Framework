@@ -1,23 +1,27 @@
+using Mirror;
 using UnityEngine;
+using Framework.Player;
 using Framework.Bomb;
 
-namespace Framework.Player
+namespace Framework.Multiplayer
 {
-    [RequireComponent(typeof(Player), typeof(IPlayerMovement))]
-    public class PlayerInteractionController : MonoBehaviour
+    [RequireComponent(typeof(Player.Player), typeof(IPlayerMovement))]
+    public class NetworkPlayerInteractionController : NetworkBehaviour
     {
-        private Player _player;
+        private Player.Player _player;
         private IPlayerMovement _playerMovement;
         private int _activeBombs;
-
-        private void Start()
+        public override void OnStartLocalPlayer()
         {
-            _player = GetComponent<Player>();
+            _player = GetComponent<Player.Player>();
             _playerMovement = GetComponent<IPlayerMovement>();
         }
 
         private void Update()
         {
+            if (!isLocalPlayer || _player == null)
+                return;
+
             if (Input.GetButtonDown($"Action P{_player.PlayerID}"))
             {
                 DropBomb();
@@ -34,10 +38,10 @@ namespace Framework.Player
             GameObject bombObj = Instantiate(bombPrefab, bombPosition, Quaternion.identity);
             Bomb.Bomb bomb = bombObj.GetComponent<Bomb.Bomb>();
             bomb.authorID = _player.PlayerID;
-            
+
             bomb.OnBombExploded.AddListener(() => _activeBombs--);
             _activeBombs++;
-            
+
             bomb.DropBomb();
         }
 
@@ -62,7 +66,7 @@ namespace Framework.Player
             {
                 ExplosionMark explosionMark = collider.GetComponent<ExplosionMark>();
                 if (_player.PlayerID == explosionMark.authorID) return;
-                
+
                 _player.explosionMarksAffectingPlayer.Add(explosionMark);
 
                 if (explosionMark.isSticky)

@@ -242,10 +242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338e21b8058322d4dafb52d68ef7cb0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialMoveSpeed: 0
-  currentMoveSpeed: 0
-  slidingFactor: 0
-  directionChangeSpeed: 0
 --- !u!114 &2893011293486789602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +259,7 @@ MonoBehaviour:
       m_Calls: []
   PlayerID: -1
   explosionMarksAffectingPlayer: []
+  _playerRole: {fileID: 11400000, guid: f9f5071b738dce24abd61c4a717b84ac, type: 2}
 --- !u!114 &145537714189897370
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,8 +16,8 @@ namespace Framework.Player
 
         public Animator PlayerAnimator { get; private set; }
 
-        private PlayerRole _playerRole;
-        private PlayerState _playerState;
+        [SerializeField]  private PlayerRole _playerRole;
+        private PlayerState _playerState = PlayerState.Alive;
 
         public PlayerState PlayerState
         {
@@ -42,13 +42,13 @@ namespace Framework.Player
         private void Awake()
         {
             PlayerAnimator = GetComponentInChildren<Animator>();
+            if (_playerRole) ApplyRole();
         }
 
         private void ApplyRole()
         {
-            PlayerMovementController playerMovementController = GetComponent<PlayerMovementController>();
-
-            playerMovementController.InitialMoveSpeed = _playerRole.moveSpeed;
+            IPlayerMovement playerMovement = GetComponent<IPlayerMovement>();
+            playerMovement.InitialMoveSpeed = _playerRole.moveSpeed;
             PlayerAnimator = GetComponentInChildren<Animator>();
         }
 

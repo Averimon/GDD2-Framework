@@ -10,7 +10,7 @@ EditorBuildSettings:
     guid: eb93fe343a833e44298f6b0f7d923ff3
   - enabled: 1
     path: Assets/Scenes/SelectionScene.unity
-    guid: 9a75bb2d53fe5a842856b49c1ddc8fd0
+    guid: a927ff23f5638d141b4a6c05c5251e6e
   - enabled: 1
     path: Assets/Scenes/NetworkMainMenu.unity
     guid: 20b2f361c39d19143818c49a1a616d54
@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/OnlineGameScene.unity
+    guid: 7e593a70ff83f2143ad23cd372f1ba53
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: b170074a82c5d1c4cae50cac41cbe1c0
